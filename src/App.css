@@ -1,0 +1,149 @@
+/* ============================================
+   RESET & BASE STYLES
+   ============================================ */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+#root {
+  height: 100%;
+  width: 100%;
+}
+
+body {
+  background: linear-gradient(135deg, #0f172a 0%, #1a233e 100%);
+  color: #e5e7eb;
+  font-size: 16px;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
+    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
+    sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+/* ============================================
+   LAYOUT COMPONENTS
+   ============================================ */
+.app-container {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  width: 100%;
+}
+
+.app-header {
+  text-align: center;
+  padding: 32px 24px 24px;
+  background: rgba(2, 6, 23, 0.4);
+  backdrop-filter: blur(10px);
+  border-bottom: 1px solid rgba(148, 163, 184, 0.1);
+  position: sticky;
+  top: 0;
+  z-index: 10;
+}
+
+.app-header h1 {
+  font-size: 32px;
+  font-weight: 700;
+  background: linear-gradient(135deg, #e5e7eb 0%, #cbd5e1 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  letter-spacing: -0.5px;
+}
+
+.app-main {
+  flex: 1;
+  max-width: 600px;
+  width: 100%;
+  margin: 0 auto;
+  padding: 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+
+
+/* ============================================
+   NAVBAR 
+   ============================================ */
+
+   .navbar {
+    background-color: #111;
+    padding: 15px 50px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px solid #1f1f1f;
+   }
+
+   .logo h1 {
+    font-size: 20px;
+    font-weight: 600;
+    color: white;
+    letter-spacing: 1px;
+   }
+
+   .nav-links {
+    list-style: none;
+    display: flex;
+    gap: 25px;
+   }
+
+   .nav-links a {
+    text-decoration: none;
+    color: white;
+    font-size: 15px;
+    transition: 0.2s ease;
+   }
+
+   .nav-links a:hover {
+    color: #f4b400;  /* shawama gold */
+   }
+
+   .navbar a {
+    color: white;
+    text-decoration: none;
+   }
+
+
+   .page {
+  padding: 40px;
+}
+
+.hero {
+  text-align: center;
+  margin-bottom: 50px;
+}
+
+.cta-btn {
+  padding: 12px 24px;
+  font-size: 16px;
+  cursor: pointer;
+}
+
+.features {
+  text-align: center;
+}
+
+.menu-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 20px;
+}
+
+.menu-item {
+  border: 1px solid #ddd;
+  padding: 20px;
+  border-radius: 10px;
+}
+
