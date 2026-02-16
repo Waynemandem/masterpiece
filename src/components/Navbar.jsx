@@ -18,6 +18,9 @@ function Navbar() {
         <li>
           <Link to="/menu">Menu</Link>
         </li>
+        <li>
+          <Link to="/contact">Contact</Link>
+        </li>
       </ul>
     </nav>
   );
