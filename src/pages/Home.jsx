@@ -12,12 +12,18 @@ function Home() {
     <div className="page home-page">
 
       <section className="hero">
-        <h1>Welcome to Masterpiece Shawarma</h1>
+        <h2>Masterpiece Shawarma</h2>
         <p>Hot. Fresh. Legendary Taste.</p>
 
         <button className="cta-btn"
         onClick={() => navigate("/Menu")}>
           View Menu
+        </button>
+        <br />
+        <br />
+        <button className="cta-btn"
+        onClick={() => navigate("/Gallery")}>
+          View Gallery
         </button>
       </section>
 

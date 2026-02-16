@@ -15,13 +15,13 @@ function Contact() {
       <div className="contact-info">
 
         <div className="contact-card">
-          <h3>📞 Phone</h3>
-          <p>+234 XXX XXX XXXX</p>
+          <a href="+234 907 874 0445">Call us on..</a>
         </div>
 
         <div className="contact-card">
-          <h3>💬 WhatsApp</h3>
-          <p>Chat with us for fast orders</p>
+          <a href="https://wa.me/2349078740445">
+          Order on 💬 WhatsApp
+          </a>
         </div>
 
         <div className="contact-card">
@@ -31,14 +31,14 @@ function Contact() {
 
         <div className="contact-card">
           <h3>🕒 Opening Hours</h3>
-          <p>Mon - Sun: 9AM - 10PM</p>
+          <p>Mon - Sun: 4PM - 10:30PM</p>
         </div>
 
       </div>
 
       {/* Simple Contact Form */}
       <div className="contact-form">
-        <h2>Send Message</h2>
+        <h2>Tell us how it tastes</h2>
 
         <form>
           <input type="text" placeholder="Your Name" required />

@@ -1,11 +1,12 @@
 import '../App.css'
+import menuData  from '../data/menuData';
 
 
 
 // Menu page
 // Shows available shawarma items
 
-function Menu() {
+function Menu( { addToCart }) {
   return (
     <div className="page menu-page">
 
@@ -15,27 +16,31 @@ function Menu() {
 <br />
       <div className="menu-grid">
 
-        <div className="menu-item">
-          <h3>Chicken Shawarma</h3>
-          <p>Juicy grilled chicken with creamy sauce</p>
-          <span>₦2500</span>
-        </div>
+       {menuData.map((item) => (
+        <div className="menu-item" key={item.id}>
+            {/* Food image */}
+            <img src={item.image} alt={item.name} />
 
-        <div className="menu-item">
-          <h3>Beef Shawarma</h3>
-          <p>Rich beef filling with fresh veggies</p>
-          <span>₦3000</span>
-        </div>
+            {/* Food name */}
+            <h3>{item.name}</h3>
 
-        <div className="menu-item">
-          <h3>Special Mix Shawarma</h3>
-          <p>Chicken + Beef combo for serious eaters</p>
-          <span>₦3500</span>
+            {/* description */}
+            <p>{item.description}</p>
+
+            {/* Price */}
+            <span>#{item.price}</span>
+
+            {/* Add to cart button */}
+            <button 
+              onClick={() => addToCart(item)}
+              >Add To Cart</button>
+        </div>
+       ))}
+        
+
         </div>
 
       </div>
-
-    </div>
   );
 }
 
