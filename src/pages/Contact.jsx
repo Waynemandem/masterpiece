@@ -22,13 +22,13 @@ function Contact() {
     },
     // Operating hours (24-hour format)
     operatingHours: {
-      monday: { open: "11:00", close: "23:00" },
-      tuesday: { open: "11:00", close: "23:00" },
-      wednesday: { open: "11:00", close: "23:00" },
-      thursday: { open: "11:00", close: "23:00" },
-      friday: { open: "11:00", close: "23:00" },
-      saturday: { open: "11:00", close: "23:00" },
-      sunday: { open: "12:00", close: "22:00" }
+      monday: { open: "03:00", close: "23:00" },
+      tuesday: { open: "03:00", close: "23:00" },
+      wednesday: { open: "03:00", close: "23:00" },
+      thursday: { open: "03:00", close: "23:00" },
+      friday: { open: "03:00", close: "23:00" },
+      saturday: { open: "03:00", close: "23:00" },
+      sunday: { open: "03:00", close: "22:00" }
     }
   };
 

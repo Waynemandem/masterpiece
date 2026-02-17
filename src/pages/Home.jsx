@@ -33,7 +33,7 @@ function Home() {
         id: 1,
         name: "Chicken Shawarma Wrap",
         price: 1125,
-        image: "https://images.unsplash.com/photo-1529006557810-274b9b2fc783?w=400&q=80",
+        image: "./images/photo_2026-02-14_21-10-36.jpg",
         lastOrdered: "2 days ago"
       },
       {
@@ -137,7 +137,7 @@ function Home() {
       <section className="hero-section">
         <div className="hero-overlay"></div>
         <div className="hero-content">
-          <span className="hero-subtitle">Authentic Middle Eastern Cuisine</span>
+          <span className="hero-subtitle">Authentic Fresh Shawarma</span>
           <h1 className="hero-title">
             Masterpiece Shawarma
             <span className="hero-title-accent">Hot. Fresh. Legendary Taste.</span>
@@ -254,7 +254,7 @@ function Home() {
             <h3>Affordable Prices</h3>
             <p>Premium taste without premium price stress. Value for money!</p>
             <div className="feature-badge">
-              From ₦800
+              From ₦2000
             </div>
           </div>
         </div>
