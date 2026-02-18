@@ -260,6 +260,11 @@ function Home() {
         </div>
       </section>
 
+      <section className="menu-section">
+        <h1>Our Menu</h1>
+        <p>Explore our delicious range of shawarma dishes, sides, and combos.</p>
+      </section>
+
     </div>
   );
 }

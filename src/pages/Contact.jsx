@@ -9,8 +9,8 @@ function Contact() {
   // Business information
   const businessInfo = {
     name: "Masterpiece Shawarma",
-    phone: "+234-801-234-5678",
-    whatsapp: "+2348012345678",
+    phone: "+234-706-702-7109",
+    whatsapp: "+2347067027109",
     email: "hello@masterpiece.com",
     address: "15 Admiralty Way, Lekki Phase 1, Lagos",
     instagram: "https://instagram.com/masterpiece_shawarma",
@@ -22,24 +22,21 @@ function Contact() {
     },
     // Operating hours (24-hour format)
     operatingHours: {
-      monday: { open: "03:00", close: "23:00" },
-      tuesday: { open: "03:00", close: "23:00" },
-      wednesday: { open: "03:00", close: "23:00" },
-      thursday: { open: "03:00", close: "23:00" },
-      friday: { open: "03:00", close: "23:00" },
-      saturday: { open: "03:00", close: "23:00" },
-      sunday: { open: "03:00", close: "22:00" }
+      monday: { open: "15:00", close: "23:00" },
+      tuesday: { open: "15:00", close: "23:00" },
+      wednesday: { open: "15:00", close: "23:00" },
+      thursday: { open: "15:00", close: "23:00" },
+      friday: { open: "15:00", close: "23:00" },
+      saturday: { open: "15:00", close: "23:00" },
+      sunday: { open: "15:00", close: "22:00" }
     }
   };
 
   // Delivery zones with areas
   const deliveryZones = [
-    { name: "Lekki Phase 1", fee: "₦500", time: "30-45 min" },
-    { name: "Victoria Island", fee: "₦800", time: "35-50 min" },
-    { name: "Ikoyi", fee: "₦800", time: "40-55 min" },
-    { name: "Ajah", fee: "₦1,000", time: "45-60 min" },
-    { name: "Lekki Phase 2", fee: "₦700", time: "35-50 min" },
-    { name: "Oniru", fee: "₦600", time: "25-40 min" }
+    { name: "Arepo", fee: "₦1,000", time: "15-30 min" },
+    { name: "Warewa", fee: "₦800", time: "5-15 min" },
+    { name: "Inside Warewa", fee: "₦500", time: "10-20 min" }
   ];
 
   // Check if restaurant is open
