@@ -1,9 +1,10 @@
 import '../App.css';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { useState } from 'react';
 
 function Navbar({ cartCount }) {
   const [open, setOpen] = useState(false);
+  const navigate = useNavigate();
 
   return (
     <nav className="navbar">
@@ -36,8 +37,14 @@ function Navbar({ cartCount }) {
         <li onClick={() => setOpen(false)}>
           <Link to="/contact">Contact</Link>
         </li>
-        <li className="cart-item">
-          🛒 Cart ({cartCount})
+        <li 
+          className="cart-item"
+          onClick={() => {
+            setOpen(false);
+            navigate('/cart');
+          }}
+        >
+          🛒 Cart {cartCount > 0 && <span className="cart-badge">{cartCount}</span>}
         </li>
       </ul>
     </nav>

@@ -1,5 +1,5 @@
 import '../App.css';
-import './Ordersuccess.css';
+import '../Ordersuccess.css';
 import { useEffect } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { FaCheckCircle, FaWhatsapp, FaHome, FaReceipt } from 'react-icons/fa';

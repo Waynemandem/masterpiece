@@ -1,5 +1,5 @@
 import '../App.css';
-import './Checkout.css';
+import '../Checkout.css';
 import { useState } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { FaUser, FaPhone, FaMapMarkerAlt, FaCreditCard, FaMoneyBillWave, FaCheckCircle, FaTruck, FaShoppingBag } from 'react-icons/fa';

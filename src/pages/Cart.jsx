@@ -1,5 +1,5 @@
 import '../App.css';
-import './Cart.css';
+import '../Cart.css';
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { FaTrash, FaPlus, FaMinus, FaShoppingBag, FaArrowLeft } from 'react-icons/fa';

@@ -59,8 +59,8 @@ function App() {
 
          {/* Order success page */}
         <Route
-          path="/order-success"
-          element={<OrderSuccess />}
+          path="/ordersuccess"
+          element={<Ordersuccess />}
         />
 
         <Route 
