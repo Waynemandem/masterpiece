@@ -1,0 +1,498 @@
+/* ============================================
+   ORDER SUCCESS PAGE STYLES
+   ============================================ */
+
+.success-page {
+  width: 100%;
+  min-height: 100vh;
+  background: #0f172a;
+  padding: 60px 20px;
+  position: relative;
+  overflow: hidden;
+}
+
+/* ============================================
+   SUCCESS ANIMATION
+   ============================================ */
+
+.success-animation {
+  position: relative;
+  display: flex;
+  justify-content: center;
+  margin-bottom: 40px;
+}
+
+.success-circle {
+  width: 120px;
+  height: 120px;
+  background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 0 40px rgba(16, 185, 129, 0.5);
+  animation: scaleIn 0.5s ease-out, pulse 2s ease-in-out 0.5s infinite;
+}
+
+@keyframes scaleIn {
+  from {
+    transform: scale(0);
+    opacity: 0;
+  }
+  to {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+@keyframes pulse {
+  0%, 100% {
+    transform: scale(1);
+    box-shadow: 0 0 40px rgba(16, 185, 129, 0.5);
+  }
+  50% {
+    transform: scale(1.05);
+    box-shadow: 0 0 60px rgba(16, 185, 129, 0.7);
+  }
+}
+
+.success-icon {
+  font-size: 64px;
+  color: white;
+  animation: checkmark 0.8s ease-out 0.3s backwards;
+}
+
+@keyframes checkmark {
+  0% {
+    transform: scale(0) rotate(-45deg);
+    opacity: 0;
+  }
+  50% {
+    transform: scale(1.2) rotate(0deg);
+  }
+  100% {
+    transform: scale(1) rotate(0deg);
+    opacity: 1;
+  }
+}
+
+/* Confetti Animation */
+.success-confetti {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 200px;
+  pointer-events: none;
+}
+
+.confetti {
+  position: absolute;
+  top: 0;
+  width: 10px;
+  height: 10px;
+  border-radius: 2px;
+  animation: confettiFall 3s linear forwards;
+}
+
+@keyframes confettiFall {
+  from {
+    transform: translateY(0) rotate(0deg);
+    opacity: 1;
+  }
+  to {
+    transform: translateY(200px) rotate(720deg);
+    opacity: 0;
+  }
+}
+
+/* ============================================
+   SUCCESS CONTENT
+   ============================================ */
+
+.success-content {
+  max-width: 800px;
+  margin: 0 auto;
+  animation: fadeInUp 0.6s ease-out 0.3s backwards;
+}
+
+.success-title {
+  font-size: clamp(28px, 5vw, 42px);
+  font-weight: 800;
+  color: #ffffff;
+  text-align: center;
+  margin-bottom: 12px;
+}
+
+.success-subtitle {
+  font-size: 16px;
+  color: #cbd5e1;
+  text-align: center;
+  margin-bottom: 40px;
+  line-height: 1.6;
+}
+
+/* ============================================
+   ORDER NUMBER CARD
+   ============================================ */
+
+.order-number-card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 32px;
+  background: linear-gradient(135deg, rgba(244, 180, 0, 0.1) 0%, rgba(15, 23, 42, 0.8) 100%);
+  border: 2px solid #f4b400;
+  border-radius: 20px;
+  margin-bottom: 30px;
+  box-shadow: 0 0 30px rgba(244, 180, 0, 0.2);
+}
+
+.order-number-label {
+  font-size: 14px;
+  color: #94a3b8;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  margin-bottom: 8px;
+}
+
+.order-number {
+  font-size: 36px;
+  font-weight: 800;
+  color: #f4b400;
+  font-family: 'Courier New', monospace;
+  letter-spacing: 2px;
+  margin-bottom: 8px;
+}
+
+.order-number-hint {
+  font-size: 13px;
+  color: #64748b;
+}
+
+/* ============================================
+   ESTIMATED TIME CARD
+   ============================================ */
+
+.estimated-time-card {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  padding: 24px;
+  background: rgba(30, 41, 59, 0.6);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(244, 180, 0, 0.1);
+  border-radius: 16px;
+  margin-bottom: 30px;
+}
+
+.time-icon {
+  font-size: 48px;
+  flex-shrink: 0;
+}
+
+.time-info {
+  flex: 1;
+}
+
+.time-info h3 {
+  font-size: 16px;
+  font-weight: 600;
+  color: #cbd5e1;
+  margin-bottom: 8px;
+}
+
+.time-value {
+  font-size: 28px;
+  font-weight: 800;
+  color: #f4b400;
+  margin-bottom: 4px;
+}
+
+.time-duration {
+  font-size: 14px;
+  color: #94a3b8;
+}
+
+/* ============================================
+   ORDER DETAILS CARD
+   ============================================ */
+
+.order-details-card {
+  background: rgba(30, 41, 59, 0.6);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(244, 180, 0, 0.1);
+  border-radius: 20px;
+  padding: 30px;
+  margin-bottom: 30px;
+}
+
+.details-title {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  font-size: 22px;
+  font-weight: 700;
+  color: #f4b400;
+  margin-bottom: 24px;
+  padding-bottom: 16px;
+  border-bottom: 1px solid rgba(148, 163, 184, 0.1);
+}
+
+.detail-section {
+  margin-bottom: 24px;
+}
+
+.detail-section:last-child {
+  margin-bottom: 0;
+}
+
+.detail-section h3 {
+  font-size: 16px;
+  font-weight: 700;
+  color: #cbd5e1;
+  margin-bottom: 16px;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+.detail-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 12px;
+}
+
+.detail-item {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  padding: 12px;
+  background: rgba(15, 23, 42, 0.6);
+  border-radius: 8px;
+}
+
+.detail-item.full-width {
+  grid-column: 1 / -1;
+}
+
+.detail-label {
+  font-size: 12px;
+  color: #94a3b8;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+.detail-value {
+  font-size: 15px;
+  color: #ffffff;
+  font-weight: 600;
+}
+
+/* Pickup Location Info */
+.pickup-location-info {
+  padding: 16px;
+  background: rgba(15, 23, 42, 0.6);
+  border-radius: 8px;
+}
+
+.pickup-location-info p {
+  color: #cbd5e1;
+  font-size: 14px;
+  line-height: 1.6;
+}
+
+.pickup-location-info strong {
+  color: #f4b400;
+}
+
+/* Items List */
+.items-list {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.order-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 12px;
+  background: rgba(15, 23, 42, 0.6);
+  border-radius: 8px;
+}
+
+.order-item-info {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex: 1;
+}
+
+.order-item-name {
+  font-size: 14px;
+  color: #cbd5e1;
+  font-weight: 600;
+}
+
+.order-item-qty {
+  font-size: 13px;
+  color: #94a3b8;
+}
+
+.order-item-price {
+  font-size: 15px;
+  font-weight: 700;
+  color: #f4b400;
+}
+
+/* Payment Breakdown */
+.payment-breakdown {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  margin-bottom: 16px;
+}
+
+.payment-row {
+  display: flex;
+  justify-content: space-between;
+  font-size: 15px;
+  color: #cbd5e1;
+}
+
+.payment-row.discount {
+  color: #10b981;
+}
+
+.payment-row.total {
+  padding-top: 12px;
+  margin-top: 8px;
+  border-top: 2px solid rgba(148, 163, 184, 0.2);
+  font-size: 18px;
+  font-weight: 700;
+}
+
+.payment-row.total span:last-child {
+  font-size: 24px;
+  color: #f4b400;
+}
+
+.payment-method-info {
+  padding: 12px;
+  background: rgba(244, 180, 0, 0.1);
+  border-radius: 8px;
+  font-size: 14px;
+  color: #cbd5e1;
+}
+
+.payment-method-info strong {
+  color: #f4b400;
+}
+
+/* ============================================
+   ACTION BUTTONS
+   ============================================ */
+
+.success-actions {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 16px;
+  margin-bottom: 30px;
+}
+
+.whatsapp-btn,
+.home-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  padding: 16px 24px;
+  font-size: 15px;
+  font-weight: 700;
+  border: none;
+  border-radius: 50px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.whatsapp-btn {
+  background: #25d366;
+  color: white;
+  box-shadow: 0 4px 15px rgba(37, 211, 102, 0.3);
+}
+
+.whatsapp-btn:hover {
+  background: #20ba5a;
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(37, 211, 102, 0.5);
+}
+
+.home-btn {
+  background: transparent;
+  color: #f4b400;
+  border: 2px solid #f4b400;
+}
+
+.home-btn:hover {
+  background: rgba(244, 180, 0, 0.1);
+  transform: translateY(-2px);
+}
+
+/* ============================================
+   WHAT'S NEXT CARD
+   ============================================ */
+
+.whats-next-card {
+  padding: 24px;
+  background: rgba(16, 185, 129, 0.1);
+  border: 1px solid rgba(16, 185, 129, 0.3);
+  border-radius: 16px;
+}
+
+.whats-next-card h3 {
+  font-size: 18px;
+  font-weight: 700;
+  color: #10b981;
+  margin-bottom: 16px;
+}
+
+.whats-next-card ul {
+  list-style: none;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.whats-next-card li {
+  font-size: 14px;
+  color: #cbd5e1;
+  line-height: 1.6;
+  padding-left: 8px;
+}
+
+/* ============================================
+   RESPONSIVE
+   ============================================ */
+
+@media (max-width: 768px) {
+  .success-page {
+    padding: 40px 16px;
+  }
+
+  .order-number {
+    font-size: 28px;
+  }
+
+  .detail-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .success-actions {
+    grid-template-columns: 1fr;
+  }
+
+  .order-details-card {
+    padding: 20px;
+  }
+}

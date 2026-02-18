@@ -263,6 +263,33 @@ function Home() {
       <section className="menu-section">
         <h1>Our Menu</h1>
         <p>Explore our delicious range of shawarma dishes, sides, and combos.</p>
+        <button className="btn btn-primary" onClick={() => navigate("/Menu")}>
+          View Full Menu
+        </button> 
+      </section>
+
+      <section className="reviews-section">
+        <h2>Customer Reviews</h2>
+        <div className="reviews-grid">
+          <div className="review-card">
+            <p>"Best shawarma in town! The flavors are amazing and the delivery is super fast."</p>
+            <div className="reviewer-info">
+              <img src="https://randomuser.me/api/portraits/women/44.jpg" alt="Reviewer" className="reviewer-avatar" />
+              <div>
+                <h4>Jane Doe</h4>
+                <span>⭐⭐⭐⭐⭐</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section className="whats-new-section">
+        <h2>What's New?</h2>
+        <p>Introducing our new Vegan Shawarma Wrap! Packed with flavor and plant-based goodness.</p>
+        <button className="btn btn-secondary" onClick={() => navigate("/Menu")}>
+          Try It Now
+        </button>
       </section>
 
     </div>
