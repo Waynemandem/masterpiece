@@ -11,7 +11,7 @@ function Contact() {
     name: "Masterpiece Shawarma",
     phone: "+234-706-702-7109",
     whatsapp: "+2347067027109",
-    email: "hello@masterpiece.com",
+    email: "issatolani05@gmail.com",
     address: "15 Admiralty Way, Lekki Phase 1, Lagos",
     instagram: "https://instagram.com/masterpiece_shawarma",
     facebook: "https://facebook.com/masterpieceshawarma",
