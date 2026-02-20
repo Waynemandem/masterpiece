@@ -78,7 +78,7 @@ function Checkout({ clearCart }) {
   };
 
   // Handle order submission
-  const handlePlaceOrder = (e) => {
+  const handlePlaceOrder = async (e) => {
     e.preventDefault();
 
     if (!validateForm()) {
@@ -87,15 +87,37 @@ function Checkout({ clearCart }) {
 
     setIsSubmitting(true);
 
-    // Simulate order processing
-    setTimeout(() => {
-      // Generate order number
-      const orderNumber = `MP${Date.now().toString().slice(-8)}`;
+    try {
+      // Import the order service
+      const { createOrder } = await import('../services/orderService');
+      
+      // Prepare order data
+      const orderToCreate = {
+        items: orderData.cartItems,
+        customer: formData,
+        orderType: orderType,
+        address: orderType === 'delivery' ? {
+          street: formData.address,
+          area: formData.area
+        } : null,
+        subtotal: orderData.subtotal,
+        discount: orderData.discount || 0,
+        deliveryFee: orderType === 'delivery' ? orderData.deliveryFee : 0,
+        total: orderData.total,
+        paymentMethod: paymentMethod,
+        paymentStatus: paymentMethod === 'cash' ? 'pending' : 'awaiting',
+        notes: formData.notes
+      };
+
+      // Save order to Firebase
+      const createdOrder = await createOrder(orderToCreate);
+      
+      console.log('✅ Order saved to Firebase:', createdOrder);
 
       // Navigate to success page
       navigate('/order-success', {
         state: {
-          orderNumber,
+          orderNumber: createdOrder.orderNumber,
           orderData: {
             ...orderData,
             orderType,
@@ -107,8 +129,11 @@ function Checkout({ clearCart }) {
 
       // Clear cart
       clearCart();
+    } catch (error) {
+      console.error('❌ Error creating order:', error);
+      alert('Failed to place order. Please try again.');
       setIsSubmitting(false);
-    }, 2000);
+    }
   };
 
   return (

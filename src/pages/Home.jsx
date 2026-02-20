@@ -137,15 +137,14 @@ function Home() {
       <section className="hero-section">
         <div className="hero-overlay"></div>
         <div className="hero-content">
-          <span className="hero-subtitle">Authentic Fresh Shawarma</span>
+          <span className="hero-subtitle">What a Masterpiece</span>
           <h1 className="hero-title">
             Masterpiece Shawarma
-            <span className="hero-title-accent">Hot. Fresh. Legendary Taste.</span>
+            <span className="hero-title-accent">Hot & Fresh.</span>
           </h1>
-          <p className="hero-description">
-            Experience the rich flavors of traditional shawarma, crafted with passion 
-            and served with love. Fresh ingredients, authentic recipes, unforgettable taste.
-          </p>
+          
+          <br />
+          <br />
           
           {/* Live Order Status Widget */}
           {isOpen && (
@@ -258,15 +257,7 @@ function Home() {
             </div>
           </div>
         </div>
-      </section>
-
-      <section className="menu-section">
-        <h1>Our Menu</h1>
-        <p>Explore our delicious range of shawarma dishes, sides, and combos.</p>
-        <button className="btn btn-primary" onClick={() => navigate("/Menu")}>
-          View Full Menu
-        </button> 
-      </section>
+      </section>``
 
       <section className="reviews-section">
         <h2>Customer Reviews</h2>

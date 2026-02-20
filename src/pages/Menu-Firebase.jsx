@@ -1,15 +1,42 @@
 import '../App.css';
-import { useState } from 'react';
+import './Menu.css';
+import { useState, useEffect } from 'react';
 import { FaFire, FaLeaf, FaStar, FaSearch, FaTimes } from 'react-icons/fa';
-import menuData from '../data/menuData';
+import { getAllMenuItems, getAvailableMenuItems } from '../services/menuService';
 
-// Menu page with categories, filters, and add to cart
+// Menu page with Firebase integration
 function Menu({ addToCart }) {
   const [selectedCategory, setSelectedCategory] = useState('all');
   const [searchQuery, setSearchQuery] = useState('');
   const [selectedItem, setSelectedItem] = useState(null);
   const [showModal, setShowModal] = useState(false);
   const [notification, setNotification] = useState('');
+  const [menuData, setMenuData] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+
+  // Load menu items from Firebase on component mount
+  useEffect(() => {
+    const loadMenu = async () => {
+      try {
+        setLoading(true);
+        // Get all available menu items from Firebase
+        const items = await getAvailableMenuItems();
+        setMenuData(items);
+        setError(null);
+      } catch (err) {
+        console.error('Error loading menu:', err);
+        setError('Failed to load menu. Please try again.');
+        // Fallback to local data if Firebase fails
+        const fallbackData = await import('../data/menuData');
+        setMenuData(fallbackData.default);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    loadMenu();
+  }, []);
 
   // Get unique categories from menu data
   const categories = ['all', ...new Set(menuData.map(item => item.category))];
@@ -41,6 +68,42 @@ function Menu({ addToCart }) {
     setSelectedItem(null);
   };
 
+  // Loading state
+  if (loading) {
+    return (
+      <div className="menu-page">
+        <section className="menu-header">
+          <h1 className="menu-title">Our Menu</h1>
+          <p className="menu-subtitle">Loading delicious items...</p>
+        </section>
+        <div className="loading-container">
+          <div className="loading-spinner"></div>
+          <p>Loading menu from database...</p>
+        </div>
+      </div>
+    );
+  }
+
+  // Error state
+  if (error && menuData.length === 0) {
+    return (
+      <div className="menu-page">
+        <section className="menu-header">
+          <h1 className="menu-title">Our Menu</h1>
+        </section>
+        <div className="error-container">
+          <p className="error-message">❌ {error}</p>
+          <button 
+            className="retry-btn"
+            onClick={() => window.location.reload()}
+          >
+            Retry
+          </button>
+        </div>
+      </div>
+    );
+  }
+
   return (
     <div className="menu-page">
       {/* Notification Toast */}
@@ -54,6 +117,9 @@ function Menu({ addToCart }) {
       <section className="menu-header">
         <h1 className="menu-title">Our Menu</h1>
         <p className="menu-subtitle">Discover our delicious selection</p>
+        {error && (
+          <p className="warning-message">⚠️ Using cached menu data</p>
+        )}
       </section>
 
       {/* Search Bar */}
@@ -79,22 +145,18 @@ function Menu({ addToCart }) {
         </div>
       </section>
 
-   {/* Category Tabs */}
-<section className="category-tabs">
-  {categories.map((category) => (
-    <button
-      key={category || Math.random()}
-      className={`category-tab ${
-        selectedCategory === category ? "active" : ""
-      }`}
-      onClick={() => setSelectedCategory(category)}
-    >
-      {category
-        ? category.charAt(0).toUpperCase() + category.slice(1)
-        : ""}
-    </button>
-  ))}
-</section>
+      {/* Category Tabs */}
+      <section className="category-tabs">
+        {categories.map((category) => (
+          <button
+            key={category}
+            className={`category-tab ${selectedCategory === category ? 'active' : ''}`}
+            onClick={() => setSelectedCategory(category)}
+          >
+            {category.charAt(0).toUpperCase() + category.slice(1)}
+          </button>
+        ))}
+      </section>
 
       {/* Menu Grid */}
       <section className="menu-content">
@@ -134,6 +196,11 @@ function Menu({ addToCart }) {
                   {item.new && (
                     <span className="badge badge-new">
                       ✨ New
+                    </span>
+                  )}
+                  {!item.available && (
+                    <span className="badge badge-soldout">
+                      Sold Out
                     </span>
                   )}
                 </div>
@@ -180,8 +247,9 @@ function Menu({ addToCart }) {
                     <button 
                       className="add-to-cart-btn"
                       onClick={() => handleAddToCart(item)}
+                      disabled={!item.available}
                     >
-                      Add to Cart
+                      {item.available ? 'Add to Cart' : 'Sold Out'}
                     </button>
                   </div>
                 </div>
@@ -212,6 +280,7 @@ function Menu({ addToCart }) {
                   {selectedItem.popular && <span className="badge badge-popular"><FaFire /> Popular</span>}
                   {selectedItem.vegetarian && <span className="badge badge-veg"><FaLeaf /> Veg</span>}
                   {selectedItem.halal && <span className="badge badge-halal">🌙 Halal</span>}
+                  {!selectedItem.available && <span className="badge badge-soldout">Sold Out</span>}
                 </div>
 
                 {/* Rating */}
@@ -280,8 +349,9 @@ function Menu({ addToCart }) {
                       handleAddToCart(selectedItem);
                       closeModal();
                     }}
+                    disabled={!selectedItem.available}
                   >
-                    Add to Cart
+                    {selectedItem.available ? 'Add to Cart' : 'Sold Out'}
                   </button>
                 </div>
               </div>

@@ -17,8 +17,8 @@ function Contact() {
     facebook: "https://facebook.com/masterpieceshawarma",
     // Google Maps coordinates (replace with your actual location)
     mapCoordinates: {
-      lat: 6.4396,
-      lng: 3.4643
+      lat: 6.67657,
+      lng: 3.40924
     },
     // Operating hours (24-hour format)
     operatingHours: {
