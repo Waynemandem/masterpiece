@@ -3,7 +3,7 @@ import { useState } from 'react';
 import './App.css';
 import Navbar from './components/Navbar';
 import Home from './pages/Home';
-import Menu from './pages/Menu';
+import Menu from './pages/Menu-Firebase';
 import Cart from './pages/Cart';
 import Checkout from './pages/Checkout';
 import Ordersuccess from './pages/Ordersuccess';

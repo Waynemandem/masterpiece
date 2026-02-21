@@ -20,6 +20,10 @@ function Navbar({ cartCount }) {
         aria-label="Toggle menu"
         aria-expanded={open}
       >
+        {/* Red notification badge when cart has items */}
+        {cartCount > 0 && !open && (
+          <span className="hamburger-badge">{cartCount}</span>
+        )}
         {open ? '✕' : '☰'}
       </button>
 

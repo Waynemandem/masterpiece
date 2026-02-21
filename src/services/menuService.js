@@ -7,8 +7,7 @@ import { collection,
          deleteDoc,
          doc,
          query,
-         where,
-         _orderBy
+         where
          } from "firebase/firestore";
 import { db } from "../config/firebase";
 

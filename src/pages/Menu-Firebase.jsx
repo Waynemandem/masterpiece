@@ -1,5 +1,5 @@
 import '../App.css';
-import './Menu.css';
+import '../menu-loadingstyle.css';
 import { useState, useEffect } from 'react';
 import { FaFire, FaLeaf, FaStar, FaSearch, FaTimes } from 'react-icons/fa';
 import { getAllMenuItems, getAvailableMenuItems } from '../services/menuService';
