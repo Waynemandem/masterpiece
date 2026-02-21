@@ -11,7 +11,7 @@ function Navbar({ cartCount }) {
       {/* Logo */}
       <div className="logo">
         <Link to="/">
-        <img src="src/images/logo.jpg.jpg" alt="" />
+        <img src="src/images/logo.jpg" alt="" />
         </Link>
       </div>
 
