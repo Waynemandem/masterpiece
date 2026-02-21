@@ -2,20 +2,20 @@ import '../App.css';
 import { Link, useNavigate } from 'react-router-dom';
 import { useState } from 'react';
 
-// Simple stable Navbar with hamburger
 function Navbar({ cartCount }) {
-  // controls menu open/close
   const [open, setOpen] = useState(false);
   const navigate = useNavigate();
-  
+
   return (
     <nav className="navbar">
       {/* Logo */}
       <div className="logo">
-        <Link to="/">Masterpiece</Link>
+        <Link to="/">
+        <img src="src/images/logo.jpg.jpg" alt="" />
+        </Link>
       </div>
 
-      {/* Hamburger Button with Cart Badge */}
+      {/* Hamburger Button */}
       <button
         className="hamburger"
         onClick={() => setOpen(!open)}
