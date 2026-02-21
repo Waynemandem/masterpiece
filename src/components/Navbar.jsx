@@ -1,6 +1,7 @@
 import '../App.css';
 import { Link, useNavigate } from 'react-router-dom';
 import { useState } from 'react';
+import logo from '../images/logo.jpg';
 
 function Navbar({ cartCount }) {
   const [open, setOpen] = useState(false);
@@ -11,7 +12,7 @@ function Navbar({ cartCount }) {
       {/* Logo */}
       <div className="logo">
         <Link to="/">
-        <img src="src/images/logo.jpg" alt="" />
+        <img src={logo} alt={logo} />
         </Link>
       </div>
 
