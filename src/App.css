@@ -45,13 +45,11 @@ body {
   z-index: 100;
 }
 
-.logo h1,
-.logo a {
-  font-size: 20px;
-  font-weight: 600;
-  color: white;
-  letter-spacing: 1px;
-  text-decoration: none;
+.logo img {
+  height: 50px;
+  width: auto;
+  cursor: pointer;
+  border-radius: 30px;
 }
 
 .nav-links {
