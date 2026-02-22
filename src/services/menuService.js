@@ -1,30 +1,35 @@
-// services/menuService.js
+// Menu Service - Handles all menu-related database operations
+// src/services/menuService.js
 
-import { collection, 
-         getDocs, 
-         addDoc,
-         updateDoc,
-         deleteDoc,
-         doc,
-         query,
-         where
-         } from "firebase/firestore";
-import { db } from "../config/firebase";
+import { 
+  collection, 
+  getDocs, 
+  doc, 
+  getDoc, 
+  addDoc, 
+  updateDoc, 
+  deleteDoc,
+  query,
+  where,
+  orderBy 
+} from 'firebase/firestore';
+import { db } from '../config/firebase';
 
-// Reference to "menu" collection in Firestore
-const MENU_COLLECTION = collection(db, "menu");
+const MENU_COLLECTION = 'menu';
+
+// ============================================
+// READ OPERATIONS
+// ============================================
 
 /**
- * Fetch all menu items
- * @returns {Promise<MenuItem[]>}
+ * Get all menu items
+ * @returns {Promise<Array>} Array of menu items
  */
-
-
 export const getAllMenuItems = async () => {
   try {
     const menuRef = collection(db, MENU_COLLECTION);
     const querySnapshot = await getDocs(menuRef);
-
+    
     const menuItems = [];
     querySnapshot.forEach((doc) => {
       menuItems.push({
@@ -32,14 +37,13 @@ export const getAllMenuItems = async () => {
         ...doc.data()
       });
     });
- 
+    
     return menuItems;
   } catch (error) {
-    console.error('error getting menu items:', error);
+    console.error('Error getting menu items:', error);
+    throw error;
   }
 };
-
-;
 
 /**
  * Get menu items by category
@@ -74,15 +78,18 @@ export const getMenuItemsByCategory = async (category) => {
 export const getAvailableMenuItems = async () => {
   try {
     const menuRef = collection(db, MENU_COLLECTION);
-    const q = query(menuRef, where('available', '==', true));
-    const querySnapshot = await getDocs(q);
+    const querySnapshot = await getDocs(menuRef);
     
     const menuItems = [];
     querySnapshot.forEach((doc) => {
-      menuItems.push({
-        id: doc.id,
-        ...doc.data()
-      });
+      const data = doc.data();
+      // Only include items that are available (or don't have available field)
+      if (data.available !== false) {
+        menuItems.push({
+          id: doc.id,
+          ...data
+        });
+      }
     });
     
     return menuItems;
@@ -100,7 +107,7 @@ export const getAvailableMenuItems = async () => {
 export const getMenuItem = async (itemId) => {
   try {
     const itemRef = doc(db, MENU_COLLECTION, itemId);
-    const itemSnap = await getDocs(itemRef);
+    const itemSnap = await getDoc(itemRef);
     
     if (itemSnap.exists()) {
       return {
@@ -159,6 +166,7 @@ export const addMenuItem = async (itemData) => {
       updatedAt: new Date()
     });
     
+    console.log('✅ Added item:', docRef.id);
     return docRef.id;
   } catch (error) {
     console.error('Error adding menu item:', error);
@@ -231,26 +239,58 @@ export const toggleItemAvailability = async (itemId, available) => {
  */
 export const initializeMenu = async (menuItems) => {
   try {
+    console.log('📤 Starting menu initialization...');
+    console.log('📊 Received data type:', typeof menuItems);
+    console.log('📊 Is array?', Array.isArray(menuItems));
+    console.log('📊 Item count:', menuItems?.length);
+    
+    // Validate input
+    if (!menuItems) {
+      throw new Error('menuItems is undefined or null');
+    }
+    
+    if (!Array.isArray(menuItems)) {
+      console.error('❌ menuItems is not an array:', menuItems);
+      throw new Error('menuItems must be an array');
+    }
+    
+    if (menuItems.length === 0) {
+      throw new Error('menuItems array is empty');
+    }
+    
     const menuRef = collection(db, MENU_COLLECTION);
     const createdIds = [];
     
-    for (const item of menuItems) {
-      const docRef = await addDoc(menuRef, {
-        ...item,
-        createdAt: new Date(),
-        updatedAt: new Date()
-      });
-      createdIds.push(docRef.id);
+    console.log(`📤 Uploading ${menuItems.length} items to Firebase...`);
+    
+    // Upload items one by one with progress
+    for (let i = 0; i < menuItems.length; i++) {
+      const item = menuItems[i];
+      console.log(`  Uploading ${i + 1}/${menuItems.length}: ${item.name}`);
+      
+      try {
+        const docRef = await addDoc(menuRef, {
+          ...item,
+          createdAt: new Date(),
+          updatedAt: new Date()
+        });
+        createdIds.push(docRef.id);
+      } catch (itemError) {
+        console.error(`❌ Error uploading item ${item.name}:`, itemError);
+        // Continue with other items
+      }
     }
+    
+    console.log('✅ Upload complete!');
+    console.log(`📊 Successfully created ${createdIds.length} items`);
     
     return createdIds;
   } catch (error) {
-    console.error('Error initializing menu:', error);
+    console.error('❌ Error in initializeMenu:', error);
+    console.error('Error details:', error.message);
     throw error;
   }
 };
-
-
 
 export default {
   getAllMenuItems,
@@ -264,5 +304,3 @@ export default {
   toggleItemAvailability,
   initializeMenu
 };
-
-

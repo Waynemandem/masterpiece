@@ -20,7 +20,7 @@ function Reviews() {
     {
       id: 2,
       name: "Amina Mohammed",
-      location: "Victoria Island",
+      location: "Banku Town, Ogun state",
       rating: 5,
       date: "1 week ago",
       image: "https://i.pravatar.cc/150?img=47",

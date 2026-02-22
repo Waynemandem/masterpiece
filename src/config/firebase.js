@@ -45,7 +45,7 @@ export default app;
  * Check if Firebase is properly initialized
  */
 export const isFirebaseConfigured = () => {
-  return firebaseConfig.apiKey !== "YOUR_API_KEY";
+  return firebaseConfig.apiKey !== "AIzaSyCBIuygY3Sq7XdM7YthtkWRHOlhDIAeFzo";
 };
 
 /**

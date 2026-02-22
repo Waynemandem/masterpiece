@@ -53,6 +53,10 @@ function Menu({ addToCart }) {
     loadMenu();
   }, []);
 
+  useEffect(() => {
+  console.log("Menu IDs:", menuData.map(item => item.id));
+}, [menuData]);
+
   // Initialize Firebase Database
   const handleInitializeDB = async () => {
     if (window.confirm('This will upload 18 menu items to Firebase. Continue?')) {
@@ -70,11 +74,15 @@ function Menu({ addToCart }) {
       } finally {
         setInitializing(false);
       }
-    }
+    } 
   };
 
   // Get unique categories from menu data
-  const categories = ['all', ...new Set(menuData.map(item => item.category))];
+  const categories = ['all', ...new Set(
+    menuData
+      .map(item => item?.category)
+      .filter(category => category) // Remove undefined/null values
+  )];
 
   // Filter menu items
   const filteredMenu = menuData.filter(item => {
@@ -341,6 +349,8 @@ function Menu({ addToCart }) {
                     </div>
                   )}
 
+                  <p className="item-description">{item.description}</p>
+
                   {/* Price & Button */}
                   <div className="item-footer">
                     <div className="item-price">
@@ -412,8 +422,33 @@ function Menu({ addToCart }) {
                 )}
 
                 {/* Allergens */}
+                {selectedItem.allergens && (
+                  <div className="modal-allergens">
+                    <h4>⚠️ Contains:</h4>
+                    <p>{selectedItem.allergens.join(', ')}</p>
+                  </div>
+                )}
 
                 {/* Nutrition Info */}
+                {selectedItem.nutrition && (
+                  <div className="modal-nutrition">
+                    <h4>Nutrition (per serving):</h4>
+                    <div className="nutrition-grid">
+                      <div className="nutrition-item">
+                        <span className="nutrition-value">{selectedItem.nutrition.calories}</span>
+                        <span className="nutrition-label">Calories</span>
+                      </div>
+                      <div className="nutrition-item">
+                        <span className="nutrition-value">{selectedItem.nutrition.protein}g</span>
+                        <span className="nutrition-label">Protein</span>
+                      </div>
+                      <div className="nutrition-item">
+                        <span className="nutrition-value">{selectedItem.nutrition.carbs}g</span>
+                        <span className="nutrition-label">Carbs</span>
+                      </div>
+                    </div>
+                  </div>
+                )}
 
                 {/* Price & Add to Cart */}
                 <div className="modal-footer">
