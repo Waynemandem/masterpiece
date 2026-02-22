@@ -107,10 +107,10 @@ In `App.css`, find `.hero-section` and replace the background image:
 ### Step 6: Start Development Server
 
 ```bash
-npm start
+npm run dev
 ```
 
-Visit `http://localhost:3000` to see your site!
+Visit `http://localhost:5174` to see your site!
 
 ## 📁 Project Structure
 
