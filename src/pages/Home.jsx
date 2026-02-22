@@ -1,3 +1,4 @@
+import Review from '../components/Review';
 import "../App.css"
 import { useNavigate } from "react-router-dom";
 import { useState, useEffect } from 'react';
@@ -250,6 +251,9 @@ function Home() {
           </div>
         </div>
       </section>
+
+       {/* ⭐ ADD REVIEWS HERE ⭐ */}
+      <Review />
 
       <section className="footer">
         <h2>Masterpiece Shawarma</h2>
