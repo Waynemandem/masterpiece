@@ -1,14 +1,16 @@
 import "../App.css"
 import { useNavigate } from "react-router-dom";
 import { useState, useEffect } from 'react';
-import { FaClock, FaFire, FaStar } from 'react-icons/fa';
+import { FaClock, FaFire, FaStar, FaInstagram, FaFacebook } from 'react-icons/fa';
+import businessInfo from "../data/businessInfo";
+
 
 // Home page of the website
 // Shows intro content and welcome message
 
 function Home() {
     const navigate = useNavigate();
-    const [currentTime, setCurrentTime] = useState(new Date());
+    const [ _currentTime, setCurrentTime] = useState(new Date());
     const [isOpen, setIsOpen] = useState(true);
     
     // Mock data - replace with real data from Firebase later
@@ -21,21 +23,21 @@ function Home() {
     // Today's special (this would come from Firebase/admin panel)
     const todaySpecial = {
       title: "Friday Special",
-      description: "Buy 2 Chicken Wraps, Get 1 Free!",
+      description: "Buy 3 Chicken Wraps, Get 1 Free!",
       discount: "50% OFF",
-      validUntil: "10:00 PM",
+      validUntil: "7:00 PM",
       code: "FRIYAY"
     };
 
     // Recent orders for quick reorder (mock data - would come from user's order history)
     const recentOrders = [
-      {
+      /*{
         id: 1,
         name: "Chicken Shawarma Wrap",
         price: 1125,
         image: "./images/photo_2026-02-14_21-10-36.jpg",
         lastOrdered: "2 days ago"
-      },
+      },*/
       {
         id: 2,
         name: "Beef Shawarma Plate",
@@ -57,8 +59,8 @@ function Home() {
       const checkOpenStatus = () => {
         const now = new Date();
         const hour = now.getHours();
-        // Open from 11 AM to 11 PM (23:00)
-        const isCurrentlyOpen = hour >= 11 && hour < 23;
+        // Open from 16 AM to 11 PM (23:00)
+        const isCurrentlyOpen = hour >= 16 && hour < 22;
         setIsOpen(isCurrentlyOpen);
       };
 
@@ -85,11 +87,7 @@ function Home() {
       return () => clearInterval(interval);
     }, []);
 
-    const getDeliveryUntil = () => {
-      const hour = currentTime.getHours();
-      if (hour >= 23 || hour < 11) return "Closed";
-      return "10:00 PM";
-    };
+   
 
   return (
     <div className="home-page">
@@ -99,7 +97,7 @@ function Home() {
         <div className="status-container">
           <span className="status-dot"></span>
           <span className="status-text">
-            {isOpen ? `🟢 Open Now` : `🔴 Closed`} • Delivery until {getDeliveryUntil()}
+            {isOpen ? `🟢 Open Now` : `🔴 Closed`} • 
           </span>
           {isOpen && (
             <span className="live-orders">
@@ -170,10 +168,6 @@ function Home() {
             </button>
           </div>
         </div>
-        <div className="hero-scroll-indicator">
-          <span>Scroll</span>
-          <div className="scroll-arrow"></div>
-        </div>
       </section>
 
       {/* Quick Reorder Section */}
@@ -229,7 +223,6 @@ function Home() {
           <div className="feature-card">
             <div className="feature-icon">🥬</div>
             <h3>Fresh Ingredients</h3>
-            <p>We use only fresh and quality ingredients sourced daily.</p>
             <div className="feature-rating">
               <FaStar className="star" />
               <FaStar className="star" />
@@ -242,7 +235,7 @@ function Home() {
           <div className="feature-card">
             <div className="feature-icon">⚡</div>
             <h3>Fast Delivery</h3>
-            <p>Your food arrives hot and fast, average {liveStats.avgWaitTime} min delivery.</p>
+            <p> Our average delivery is {liveStats.avgWaitTime} min </p>
             <div className="feature-badge">
               Average: {liveStats.avgWaitTime} mins
             </div>
@@ -251,37 +244,50 @@ function Home() {
           <div className="feature-card">
             <div className="feature-icon">💰</div>
             <h3>Affordable Prices</h3>
-            <p>Premium taste without premium price stress. Value for money!</p>
             <div className="feature-badge">
               From ₦2000
             </div>
           </div>
         </div>
-      </section>``
-
-      <section className="reviews-section">
-        <h2>Customer Reviews</h2>
-        <div className="reviews-grid">
-          <div className="review-card">
-            <p>"Best shawarma in town! The flavors are amazing and the delivery is super fast."</p>
-            <div className="reviewer-info">
-              <img src="https://randomuser.me/api/portraits/women/44.jpg" alt="Reviewer" className="reviewer-avatar" />
-              <div>
-                <h4>Jane Doe</h4>
-                <span>⭐⭐⭐⭐⭐</span>
-              </div>
-            </div>
-          </div>
-        </div>
       </section>
 
-      <section className="whats-new-section">
-        <h2>What's New?</h2>
-        <p>Introducing our new Vegan Shawarma Wrap! Packed with flavor and plant-based goodness.</p>
-        <button className="btn btn-secondary" onClick={() => navigate("/Menu")}>
-          Try It Now
-        </button>
+      <section className="footer">
+        <h2>Masterpiece Shawarma</h2>
+        <p>Call us on {businessInfo.phone}</p>
+        <p>Or Visit {businessInfo.address}</p>
+
+         {/* Social Media */}
+              <section className="social-section">
+                <div className="section-header">
+                  <h2>Follow Us</h2>
+                  <p>Stay updated with our latest offers</p>
+                </div>
+        
+                <div className="social-links">
+                  <a 
+                    href={businessInfo.instagram} 
+                    target="_blank" 
+                    rel="noopener noreferrer"
+                    className="social-link instagram"
+                  >
+                    <FaInstagram className="social-icon" />
+                    <span>Instagram</span>
+                  </a>
+        
+                  <a 
+                    href={businessInfo.facebook} 
+                    target="_blank" 
+                    rel="noopener noreferrer"
+                    className="social-link facebook"
+                  >
+                    <FaFacebook className="social-icon" />
+                    <span>Facebook</span>
+                  </a>
+                </div>
+              </section>
+
       </section>
+
 
     </div>
   );

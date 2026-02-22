@@ -3,7 +3,6 @@
 // src/utils/initializeFirebase.js
 
 import { initializeMenu } from '../services/menuService';
-import menuData from '../data/menuData';
 
 /**
  * Initialize Firebase with menu items
@@ -12,10 +11,35 @@ import menuData from '../data/menuData';
 export const initializeFirebaseData = async () => {
   try {
     console.log('🔥 Starting Firebase initialization...');
+    
+    // Import menu data dynamically to handle different export formats
+    const menuDataModule = await import('../data/menuData');
+    
+    // Handle both default and named exports
+    let menuData;
+    if (menuDataModule.default) {
+      menuData = menuDataModule.default;
+    } else if (Array.isArray(menuDataModule)) {
+      menuData = menuDataModule;
+    } else {
+      // If it's an object with menuData property
+      menuData = menuDataModule.menuData || Object.values(menuDataModule)[0];
+    }
+    
+    // Verify it's an array
+    if (!Array.isArray(menuData)) {
+      console.error('❌ menuData is not an array:', menuData);
+      throw new Error('menuData must be an array. Check your menuData.js export format.');
+    }
+    
     console.log(`📋 Found ${menuData.length} menu items to upload`);
     
+    if (menuData.length === 0) {
+      throw new Error('menuData is empty! No items to upload.');
+    }
+    
     // Upload menu items
-    console.log('📤 Uploading menu items...');
+    console.log('📤 Uploading menu items to Firebase...');
     const createdIds = await initializeMenu(menuData);
     
     console.log('✅ Menu initialization complete!');
@@ -29,6 +53,7 @@ export const initializeFirebaseData = async () => {
     };
   } catch (error) {
     console.error('❌ Error initializing Firebase:', error);
+    console.error('Error details:', error.message);
     throw error;
   }
 };
@@ -50,72 +75,3 @@ export const isMenuInitialized = async () => {
 
 // Export for use in admin panel or setup page
 export default initializeFirebaseData;
-
-// ============================================
-// USAGE INSTRUCTIONS
-// ============================================
-
-/*
-HOW TO USE THIS SCRIPT:
-
-Option 1: In your app (one-time setup button)
----------------------------------------------
-import { initializeFirebaseData } from './utils/initializeFirebase';
-
-const handleInitialize = async () => {
-  try {
-    const result = await initializeFirebaseData();
-    alert(`Success! Created ${result.menuItemsCreated} menu items`);
-  } catch (error) {
-    alert('Error: ' + error.message);
-  }
-};
-
-<button onClick={handleInitialize}>Initialize Database</button>
-
-
-Option 2: Browser console (quick test)
----------------------------------------
-1. Start your app: npm start
-2. Open browser console (F12)
-3. Paste this code:
-
-import('./utils/initializeFirebase').then(module => {
-  module.initializeFirebaseData()
-    .then(result => console.log('Success!', result))
-    .catch(error => console.error('Error:', error));
-});
-
-
-Option 3: Node script (advanced)
----------------------------------
-Create a separate file: scripts/init.js
-
-const admin = require('firebase-admin');
-const serviceAccount = require('./serviceAccountKey.json');
-const menuData = require('../src/data/menuData');
-
-admin.initializeApp({
-  credential: admin.credential.cert(serviceAccount)
-});
-
-const db = admin.firestore();
-
-async function initialize() {
-  for (const item of menuData) {
-    await db.collection('menu').add(item);
-  }
-  console.log('Done!');
-}
-
-initialize();
-
-
-IMPORTANT NOTES:
-----------------
-1. Run this ONLY ONCE after Firebase setup
-2. Running multiple times will create duplicate items
-3. Check your Firebase Console to verify data
-4. You can delete all items and re-run if needed
-
-*/

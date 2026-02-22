@@ -250,6 +250,8 @@ export const initializeMenu = async (menuItems) => {
   }
 };
 
+
+
 export default {
   getAllMenuItems,
   getMenuItemsByCategory,
@@ -262,3 +264,5 @@ export default {
   toggleItemAvailability,
   initializeMenu
 };
+
+

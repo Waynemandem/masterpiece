@@ -11,7 +11,6 @@ import Contact from './pages/Contact';
 import Gallery from './pages/Gallery';
 
 
-
 function App() {
   // cart state (array of items)
   const [cart, setCart] = useState([]);

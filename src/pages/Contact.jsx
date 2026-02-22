@@ -104,7 +104,7 @@ function Contact() {
       {/* Header Section */}
       <section className="contact-header">
         <div className="contact-header-content">
-          <h1>Get In Touch</h1>
+          <h2>Get In Touch</h2>
           <p>We're here to serve you delicious shawarma!</p>
           
           {/* Operating Status Banner */}
