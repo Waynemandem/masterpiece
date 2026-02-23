@@ -26,7 +26,7 @@ function Home() {
       title: "Friday Special",
       description: "Buy 3 Chicken Wraps, Get 1 Free!",
       discount: "50% OFF",
-      validUntil: "7:00 PM",
+      validUntil: "9:00 PM",
       code: "FRIYAY"
     };
 
@@ -276,16 +276,6 @@ function Home() {
                   >
                     <FaInstagram className="social-icon" />
                     <span>Instagram</span>
-                  </a>
-        
-                  <a 
-                    href={businessInfo.facebook} 
-                    target="_blank" 
-                    rel="noopener noreferrer"
-                    className="social-link facebook"
-                  >
-                    <FaFacebook className="social-icon" />
-                    <span>Facebook</span>
                   </a>
                 </div>
               </section>

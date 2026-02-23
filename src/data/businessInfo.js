@@ -6,7 +6,6 @@
     email: "issatolani05@gmail.com",
     address: "15 Admiralty Way, Lekki Phase 1, Lagos",
     instagram: "https://instagram.com/masterpiece_shawarma",
-    facebook: "https://facebook.com/masterpieceshawarma",
     // Google Maps coordinates (replace with your actual location)
     mapCoordinates: {
       lat: 6.67657,
