@@ -13,112 +13,112 @@ function Gallery() {
   const galleryImages = [
     {
       id: 1,
-      url: 'https://images.unsplash.com/photo-1599487488170-d11ec9c172f0?w=800&q=80',
+      url: 'https://i.pinimg.com/736x/70/15/b0/7015b012d9e43a6bfe41bb7f7d3aca88.jpg',
       category: 'wraps',
       title: 'Chicken Shawarma Wrap',
       description: 'Perfectly grilled chicken with fresh vegetables'
     },
     {
       id: 2,
-      url: 'https://images.unsplash.com/photo-1529006557810-274b9b2fc783?w=800&q=80',
+      url: 'https://i.pinimg.com/736x/df/52/4f/df524f7b7bd6c0aeecb9c9b9e553fee7.jpg',
       category: 'wraps',
       title: 'Beef Shawarma',
       description: 'Tender beef strips with tahini sauce'
     },
     {
       id: 3,
-      url: 'https://images.unsplash.com/photo-1603360946369-dc9bb6258143?w=800&q=80',
+      url: "https://i.pinimg.com/736x/0b/58/9d/0b589d1d7f88ba576b7e64707cec1aa4.jpg",//imaes.unsplash.com/photo-1603360946369-dc9bb6258143?w=800&q=80',
       category: 'plates',
       title: 'Shawarma Plate',
       description: 'Full plate with rice and sides'
     },
     {
       id: 4,
-      url: 'https://images.unsplash.com/photo-1555939594-58d7cb561ad1?w=800&q=80',
+      url: 'https://i.pinimg.com/736x/aa/df/43/aadf43d4996a40474d25efb8a61d51dd.jpg',
       category: 'plates',
       title: 'Mixed Grill',
       description: 'Assorted meats with authentic spices'
     },
     {
       id: 5,
-      url: 'https://images.unsplash.com/photo-1544025162-d76694265947?w=800&q=80',
+      url: 'https://i.pinimg.com/736x/27/53/2c/27532c87e5eb3c158127aefba3a89b14.jpg',
       category: 'plates',
       title: 'Premium Beef Plate',
       description: 'Our signature beef shawarma plate'
     },
     {
       id: 6,
-      url: 'https://images.unsplash.com/photo-1623428187969-5da2dcea5ebf?w=800&q=80',
+      url: 'https://i.pinimg.com/736x/08/78/8e/08788e05dd62cef90becbad81b3dc48c.jpg',
       category: 'wraps',
       title: 'Veggie Wrap',
       description: 'Fresh vegetables with hummus'
     },
     {
       id: 7,
-      url: 'https://images.unsplash.com/photo-1601050690597-df0568f70950?w=800&q=80',
+      url: 'https://i.pinimg.com/736x/9d/61/37/9d6137ea0f4d4ab2932a8b06b92e072f.jpg',
       category: 'sides',
       title: 'Falafel Platter',
       description: 'Crispy falafel with tahini'
     },
     {
       id: 8,
-      url: 'https://images.unsplash.com/photo-1595587637401-f8f03d1e6370?w=800&q=80',
+      url: 'https://i.pinimg.com/736x/25/42/98/2542983abc454a53ecf983ca29f83d7a.jpg',
       category: 'sides',
       title: 'Hummus & Pita',
       description: 'Creamy hummus with warm pita'
     },
     {
       id: 9,
-      url: 'https://images.unsplash.com/photo-1519676867240-f03562e64548?w=800&q=80',
+      url: 'https://i.pinimg.com/736x/ca/33/cc/ca33cc7762795f745654f017c00ade26.jpg',
       category: 'desserts',
       title: 'Baklava',
       description: 'Sweet pastry with honey and nuts'
     },
     {
       id: 10,
-      url: 'https://images.unsplash.com/photo-1578985545062-69928b1d9587?w=800&q=80',
+      url: 'https://i.pinimg.com/736x/08/78/8e/08788e05dd62cef90becbad81b3dc48c.jpg',
       category: 'desserts',
       title: 'Kunafa',
       description: 'Cheese pastry soaked in syrup'
     },
     {
       id: 11,
-      url: 'https://images.unsplash.com/photo-1593030761757-71fae45fa0e7?w=800&q=80',
+      url: 'https://i.pinimg.com/736x/86/ac/88/86ac8886a2ae0351e50535855e45102b.jpg',
       category: 'wraps',
       title: 'Special Shawarma',
       description: 'Our chef\'s special recipe'
     },
     {
       id: 12,
-      url: 'https://images.unsplash.com/photo-1512621776951-a57141f2eefd?w=800&q=80',
+      url: 'https://i.pinimg.com/736x/0f/85/99/0f85992890b50bb48ac360cd23f76bf7.jpg',
       category: 'sides',
       title: 'Fresh Salad',
       description: 'Mediterranean garden salad'
     },
     {
       id: 13,
-      url: 'https://images.unsplash.com/photo-1600271886742-f049cd451bba?w=800&q=80',
+      url: ' https://i.pinimg.com/736x/4d/ce/70/4dce700db06e33e9dfceb3a70cc2ec6f.jpg',
       category: 'drinks',
       title: 'Fresh Juices',
       description: 'Freshly squeezed orange juice'
     },
     {
       id: 14,
-      url: 'https://images.unsplash.com/photo-1623065422902-30a2d299bbe4?w=800&q=80',
+      url: 'https://i.pinimg.com/736x/c2/98/05/c29805d4d2749da4beace7aa7dbfa092.jpg',
       category: 'drinks',
       title: 'Mango Juice',
       description: 'Sweet and refreshing'
     },
     {
       id: 15,
-      url: 'https://images.unsplash.com/photo-1565299585323-38d6b0865b47?w=800&q=80',
+      url: 'https://i.pinimg.com/736x/d3/37/fc/d337fc4485a2c43d3c8ef752814e0954.jpg',
       category: 'restaurant',
       title: 'Our Kitchen',
       description: 'Where the magic happens'
     },
     {
       id: 16,
-      url: 'https://images.unsplash.com/photo-1414235077428-338989a2e8c0?w=800&q=80',
+      url: 'https://i.pinimg.com/736x/ba/94/38/ba9438d77c3c31822227e9ca19fd3b60.jpg',
       category: 'restaurant',
       title: 'Dining Area',
       description: 'Comfortable seating for dine-in'
