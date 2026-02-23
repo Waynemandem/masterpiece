@@ -9,6 +9,7 @@ import Checkout from './pages/Checkout';
 import Ordersuccess from './pages/Ordersuccess';
 import Contact from './pages/Contact';
 import Gallery from './pages/Gallery';
+import NotFound from './components/NotFound';
 
 
 function App() {
@@ -69,6 +70,9 @@ function App() {
          <Route 
           path='gallery'
           element={<Gallery />} />  
+
+          {/* 404 Not Found route, this must be last */}
+          <Route path="*" element={<NotFound />} />
                
       </Routes>
 

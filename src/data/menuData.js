@@ -21,26 +21,6 @@ const menuData = [
       protein: 28,
       carbs: 42
     }
-  },
-  {
-    id: 18,
-    name: "Kunafa",
-    description: "Cheese pastry soaked in sweet syrup",
-    price: 650,
-    category: "desserts",
-    image: "https://images.unsplash.com/photo-1578985545062-69928b1d9587?w=600&q=80",
-    vegetarian: true,
-    halal: true,
-    new: true,
-    rating: 4.9,
-    reviews: 82,
-    ingredients: ["Shredded filo", "Cheese", "Sugar syrup", "Butter"],
-    allergens: ["Gluten", "Dairy"],
-    nutrition: {
-      calories: 420,
-      protein: 8,
-      carbs: 52
-    }
   }
 ];
 

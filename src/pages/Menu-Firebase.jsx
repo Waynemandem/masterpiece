@@ -311,7 +311,7 @@ function Menu({ addToCart }) {
                       ✨ New
                     </span>
                   )}
-                  {!item.available && (
+                  {!item.available === false && (
                     <span className="badge badge-soldout">
                       Sold Out
                     </span>
@@ -360,9 +360,9 @@ function Menu({ addToCart }) {
                     <button 
                       className="add-to-cart-btn"
                       onClick={() => handleAddToCart(item)}
-                      disabled={!item.available}
+                      disabled={!item.available === false}
                     >
-                      {item.available ? 'Add to Cart' : 'Sold Out'}
+                      {item.available === false ? 'Sold Out' : 'Add to Cart'}
                     </button>
                   </div>
                 </div>
@@ -393,7 +393,7 @@ function Menu({ addToCart }) {
                   {selectedItem.popular && <span className="badge badge-popular"><FaFire /> Popular</span>}
                   {selectedItem.vegetarian && <span className="badge badge-veg"><FaLeaf /> Veg</span>}
                   {selectedItem.halal && <span className="badge badge-halal">🌙 Halal</span>}
-                  {!selectedItem.available && <span className="badge badge-soldout">Sold Out</span>}
+                  {selectedItem.available === false &&<span className="badge badge-soldout">Sold Out</span>}
                 </div>
 
                 {/* Rating */}
@@ -462,9 +462,9 @@ function Menu({ addToCart }) {
                       handleAddToCart(selectedItem);
                       closeModal();
                     }}
-                    disabled={!selectedItem.available}
+                    disabled={selectedItem.available === false}
                   >
-                    {selectedItem.available ? 'Add to Cart' : 'Sold Out'}
+                    {selectedItem.available === false ? 'Sold Out' : 'Add to Cart'}
                   </button>
                 </div>
               </div>
