@@ -211,20 +211,7 @@ function Reviews() {
         </div>
 
         {/* Trust Indicators */}
-        <div className="trust-indicators">
-          <div className="trust-item">
-            <span className="trust-icon">✓</span>
-            <span className="trust-text">Verified Reviews</span>
-          </div>
-          <div className="trust-item">
-            <span className="trust-icon">🏆</span>
-            <span className="trust-text">Top Rated</span>
-          </div>
-          <div className="trust-item">
-            <span className="trust-icon">❤️</span>
-            <span className="trust-text">Customer Favorite</span>
-          </div>
-        </div>
+      
       </div>
     </section>
   );
