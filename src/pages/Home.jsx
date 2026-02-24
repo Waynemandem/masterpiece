@@ -258,25 +258,13 @@ function Home() {
       <section className="footer">
         <h2>Masterpiece Shawarma</h2>
         <p>Call us on {businessInfo.phone}</p>
-        <p>Or Visit {businessInfo.address}</p>
+        <p>Or Visit us at {businessInfo.address}</p>
 
          {/* Social Media */}
               <section className="social-section">
                 <div className="section-header">
                   <h2>Follow Us</h2>
                   <p>Stay updated with our latest offers</p>
-                </div>
-        
-                <div className="social-links">
-                  <a 
-                    href={businessInfo.instagram} 
-                    target="_blank" 
-                    rel="noopener noreferrer"
-                    className="social-link instagram"
-                  >
-                    <FaInstagram className="social-icon" />
-                    <span>Instagram</span>
-                  </a>
                 </div>
               </section>
 
