@@ -2978,3 +2978,232 @@ body {
 .social-btn.facebook {
   background: #1877f2; /* solid FB blue */
 }
+
+
+/* Reviews.css - Add these new styles for the review prompt */
+
+/* ============================================
+   REVIEW PROMPT MODAL
+   ============================================ */
+
+.review-prompt-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.7);
+  backdrop-filter: blur(8px);
+  z-index: 10000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+  animation: fadeIn 0.3s ease-out;
+}
+
+.review-prompt-modal {
+  background: #ffffff;
+  border-radius: 24px;
+  max-width: 500px;
+  width: 100%;
+  max-height: 90vh;
+  overflow-y: auto;
+  position: relative;
+  animation: slideUp 0.4s ease-out;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+}
+
+@keyframes slideUp {
+  from {
+    transform: translateY(50px);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+.review-prompt-close {
+  position: absolute;
+  top: 16px;
+  right: 16px;
+  background: rgba(0, 0, 0, 0.05);
+  color: #6b7280;
+  border: none;
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  font-size: 18px;
+  transition: all 0.2s ease;
+  z-index: 10;
+}
+
+.review-prompt-close:hover {
+  background: rgba(0, 0, 0, 0.1);
+  transform: rotate(90deg);
+}
+
+.review-prompt-content {
+  padding: 40px 32px 32px;
+}
+
+.review-prompt-header {
+  text-align: center;
+  margin-bottom: 32px;
+}
+
+.review-prompt-emoji {
+  font-size: 64px;
+  display: block;
+  margin-bottom: 16px;
+  animation: bounce 1s ease-in-out infinite;
+}
+
+@keyframes bounce {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-10px); }
+}
+
+.review-prompt-header h2 {
+  font-size: 28px;
+  font-weight: 800;
+  color: #111827;
+  margin-bottom: 8px;
+}
+
+.review-prompt-header p {
+  font-size: 16px;
+  color: #6b7280;
+}
+
+.review-prompt-form {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+.review-prompt-form .form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.review-prompt-form label {
+  font-size: 14px;
+  font-weight: 600;
+  color: #374151;
+}
+
+.review-prompt-form input,
+.review-prompt-form textarea {
+  width: 100%;
+  padding: 12px 16px;
+  border: 2px solid #e5e7eb;
+  border-radius: 12px;
+  font-size: 15px;
+  color: #111827;
+  transition: all 0.2s ease;
+  font-family: inherit;
+}
+
+.review-prompt-form input:focus,
+.review-prompt-form textarea:focus {
+  outline: none;
+  border-color: #f59e0b;
+  box-shadow: 0 0 0 4px rgba(245, 158, 11, 0.1);
+}
+
+.review-prompt-form textarea {
+  resize: vertical;
+  min-height: 100px;
+}
+
+.star-rating-input {
+  display: flex;
+  gap: 8px;
+  padding: 8px 0;
+}
+
+.star-input {
+  font-size: 32px;
+  color: #d1d5db;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.star-input:hover {
+  transform: scale(1.1);
+}
+
+.star-input.filled {
+  color: #f59e0b;
+}
+
+.review-prompt-actions {
+  display: flex;
+  gap: 12px;
+  margin-top: 8px;
+}
+
+.btn-skip,
+.btn-submit-review {
+  flex: 1;
+  padding: 14px 24px;
+  border-radius: 50px;
+  font-size: 16px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  border: none;
+}
+
+.btn-skip {
+  background: #f3f4f6;
+  color: #6b7280;
+}
+
+.btn-skip:hover {
+  background: #e5e7eb;
+}
+
+.btn-submit-review {
+  background: linear-gradient(135deg, #f59e0b 0%, #fbbf24 100%);
+  color: #ffffff;
+  box-shadow: 0 4px 12px rgba(245, 158, 11, 0.3);
+}
+
+.btn-submit-review:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(245, 158, 11, 0.4);
+}
+
+/* Mobile Responsive */
+@media (max-width: 480px) {
+  .review-prompt-content {
+    padding: 32px 20px 24px;
+  }
+
+  .review-prompt-header h2 {
+    font-size: 24px;
+  }
+
+  .review-prompt-emoji {
+    font-size: 48px;
+  }
+
+  .star-input {
+    font-size: 28px;
+  }
+
+  .review-prompt-actions {
+    flex-direction: column;
+  }
+}
+
+/* Keep all existing Reviews.css styles below this */

@@ -8,11 +8,13 @@ import businessInfo from "../data/businessInfo";
 
 // Home page of the website
 // Shows intro content and welcome message
-
 function Home() {
     const navigate = useNavigate();
     const [ _currentTime, setCurrentTime] = useState(new Date());
     const [isOpen, setIsOpen] = useState(true);
+
+
+
     
     // Mock data - replace with real data from Firebase later
     const [liveStats, setLiveStats] = useState({
