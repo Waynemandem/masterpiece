@@ -254,9 +254,7 @@ function Home() {
         </div>
       </section>
 
-       {/* ⭐ ADD REVIEWS HERE ⭐ */}
-      <Review />
-
+      
       <section className="footer">
         <h2>Masterpiece Shawarma</h2>
         <p>Call us on {businessInfo.phone}</p>
