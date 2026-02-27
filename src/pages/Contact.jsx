@@ -15,8 +15,8 @@ function Contact() {
     address: "Warewa Market Road, Warewa 100201, Ogun state",
     // Google Maps coordinates (replace with your actual location)
     mapCoordinates: {
-      lat: 6.68309,
-      lng: 3.413108
+      lat: 6.67657,
+      lng: 3.40924
     },
     // Operating hours (24-hour format)
     operatingHours: {
@@ -34,7 +34,8 @@ function Contact() {
   const deliveryZones = [
     { name: "Arepo", fee: "₦1,000", time: "15-30 min" },
     { name: "Warewa", fee: "₦800", time: "5-15 min" },
-    { name: "Inside Warewa", fee: "₦500", time: "10-20 min" }
+    { name: "Inside Warewa", fee: "₦500", time: "10-20 min" },
+    { name: "`Fatgbems", fee: "₦1,500", time: "20-40 min" }
   ];
 
   // Check if restaurant is open
@@ -164,7 +165,7 @@ function Contact() {
           <div className="map-container">
             <iframe
               title="Masterpiece Shawarma Location"
-              src={`https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3964.6464757384456!2d${businessInfo.mapCoordinates.lng}!3d${businessInfo.mapCoordinates.lat}!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2zNsKwMjYnMjIuNiJOIDPCsDI3JzUxLjUiRQ!5e0!3m2!1sen!2sng!4v1234567890123!5m2!1sen!2sng`}
+              src={`https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3962.6908165350005!2d3.413365400000006!3d6.685168599999995!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x103b95e178ef27c7%3A0x4a638a04ea71fbfc!2sMasterpiece%20Sharwama!5e0!3m2!1sen!2sng!4v1772158048337!5m2!1sen!2sng`}
               width="100%"
               height="400"
               style={{ border: 0, borderRadius: '12px' }}

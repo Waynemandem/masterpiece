@@ -7,8 +7,8 @@
     address: "Warewa Market Road, Warewa 100201, Ogun state",
     // Google Maps coordinates (replace with your actual location)
     mapCoordinates: {
-      lat: 6.68309,
-      lng: 3.413108
+      lat: 6.67657,
+      lng: 3.40924
     }
 }
 
