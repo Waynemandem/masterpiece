@@ -18,7 +18,6 @@ function Home() {
     
     // Mock data - replace with real data from Firebase later
     const [liveStats, setLiveStats] = useState({
-      ordersToday: 47,
       activeOrders: 12,
       avgWaitTime: 25
     });
@@ -102,11 +101,6 @@ function Home() {
           <span className="status-text">
             {isOpen ? `🟢 Open Now` : `🔴 Closed`} • 
           </span>
-          {isOpen && (
-            <span className="live-orders">
-              🔥 {liveStats.ordersToday} orders today
-            </span>
-          )}
         </div>
       </div>
 

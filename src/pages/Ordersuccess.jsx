@@ -1,237 +1,281 @@
-import '../App.css';
-import '../Ordersuccess.css';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
-import { FaCheckCircle, FaWhatsapp, FaHome, FaReceipt } from 'react-icons/fa';
+import { FaCheckCircle, FaWhatsapp, FaPhone, FaReceipt, FaHome } from 'react-icons/fa';
+import Confetti from 'react-confetti';
+import '../App.css';
 
 function OrderSuccess() {
   const navigate = useNavigate();
   const location = useLocation();
-  const { orderNumber, orderData } = location.state || {};
+  const orderInfo = location.state || {};
 
-  // Redirect if no order data
+  const [showConfetti, setShowConfetti] = useState(true);
+  const [windowSize, setWindowSize] = useState({
+    width: window.innerWidth,
+    height: window.innerHeight
+  });
+
+  // Handle window resize for confetti
   useEffect(() => {
-    if (!orderNumber) {
+    const handleResize = () => {
+      setWindowSize({
+        width: window.innerWidth,
+        height: window.innerHeight
+      });
+    };
+
+    window.addEventListener('resize', handleResize);
+
+    // Stop confetti after 5 seconds
+    const timer = setTimeout(() => {
+      setShowConfetti(false);
+    }, 5000);
+
+    return () => {
+      window.removeEventListener('resize', handleResize);
+      clearTimeout(timer);
+    };
+  }, []);
+
+  // Redirect if no order info
+  useEffect(() => {
+    if (!orderInfo.orderNumber) {
       navigate('/menu');
     }
-  }, [orderNumber, navigate]);
+  }, [orderInfo, navigate]);
 
-  if (!orderNumber) {
-    return null;
+  // WhatsApp support
+  const handleWhatsAppSupport = () => {
+    const phone = '2348012345678'; // Replace with your WhatsApp number
+    const message = `Hi! I just placed an order (${orderInfo.orderNumber}). I have a question.`;
+    window.open(`https://wa.me/${phone}?text=${encodeURIComponent(message)}`, '_blank');
+  };
+
+  // Call support
+  const handleCallSupport = () => {
+    window.location.href = 'tel:+2348012345678'; // Replace with your phone number
+  };
+
+  if (!orderInfo.orderNumber) {
+    return null; // Will redirect
   }
 
-  const { cartItems, subtotal, discount, deliveryFee, total, orderType, paymentMethod, customer } = orderData || {};
-
-  // Format estimated time
-  const getEstimatedTime = () => {
-    const now = new Date();
-    const minutes = orderType === 'delivery' ? 40 : 20;
-    now.setMinutes(now.getMinutes() + minutes);
-    return now.toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit' });
-  };
-
-  // WhatsApp message
-  const handleWhatsAppContact = () => {
-    const message = encodeURIComponent(
-      `Hi! I just placed order #${orderNumber}. I have a question about my order.`
-    );
-    window.open(`https://wa.me/+2348012345678?text=${message}`, '_blank');
-  };
+  const isPaid = orderInfo.paymentMethod === 'card';
+  const isPickup = orderInfo.orderData?.orderType === 'pickup';
 
   return (
-    <div className="success-page">
-      {/* Success Animation */}
-      <div className="success-animation">
-        <div className="success-circle">
-          <FaCheckCircle className="success-icon" />
-        </div>
-        <div className="success-confetti">
-          {[...Array(20)].map((_, i) => (
-            <div key={i} className="confetti" style={{
-              left: `${Math.random() * 100}%`,
-              animationDelay: `${Math.random() * 0.5}s`,
-              backgroundColor: ['#f4b400', '#ffd700', '#10b981', '#3b82f6'][Math.floor(Math.random() * 4)]
-            }}></div>
-          ))}
-        </div>
-      </div>
+    <div className="order-success-page">
+      {/* Confetti Animation */}
+      {showConfetti && (
+        <Confetti
+          width={windowSize.width}
+          height={windowSize.height}
+          recycle={false}
+          numberOfPieces={500}
+          gravity={0.3}
+        />
+      )}
 
-      {/* Success Content */}
-      <div className="success-content">
-        <h1 className="success-title">Order Placed Successfully! 🎉</h1>
+      <div className="success-container">
+        {/* Success Icon */}
+        <div className="success-icon-wrapper">
+          <div className="success-icon-bg">
+            <FaCheckCircle className="success-icon" />
+          </div>
+          <div className="success-pulse"></div>
+        </div>
+
+        {/* Success Message */}
+        <h1 className="success-title">Order Confirmed! 🎉</h1>
         <p className="success-subtitle">
-          Thank you for your order! We've received it and are preparing your delicious meal.
+          {isPaid 
+            ? 'Your payment was successful and your order is confirmed'
+            : 'Your order has been received and is being processed'
+          }
         </p>
 
-        {/* Order Number */}
+        {/* Order Number Card */}
         <div className="order-number-card">
-          <span className="order-number-label">Order Number</span>
-          <span className="order-number">#{orderNumber}</span>
-          <span className="order-number-hint">Save this for tracking</span>
-        </div>
-
-        {/* Estimated Time */}
-        <div className="estimated-time-card">
-          {orderType === 'delivery' ? (
-            <>
-              <div className="time-icon">🚚</div>
-              <div className="time-info">
-                <h3>Estimated Delivery</h3>
-                <p className="time-value">{getEstimatedTime()}</p>
-                <p className="time-duration">In about 30-45 minutes</p>
-              </div>
-            </>
-          ) : (
-            <>
-              <div className="time-icon">🏪</div>
-              <div className="time-info">
-                <h3>Ready for Pickup</h3>
-                <p className="time-value">{getEstimatedTime()}</p>
-                <p className="time-duration">In about 15-20 minutes</p>
-              </div>
-            </>
+          <div className="order-number-label">Order Number</div>
+          <div className="order-number">{orderInfo.orderNumber}</div>
+          {orderInfo.paymentReference && (
+            <div className="payment-reference">
+              Payment Ref: {orderInfo.paymentReference}
+            </div>
           )}
         </div>
 
         {/* Order Details */}
         <div className="order-details-card">
-          <h2 className="details-title">
+          <h3 className="details-title">
             <FaReceipt /> Order Details
-          </h2>
+          </h3>
+          
+          <div className="details-grid">
+            <div className="detail-item">
+              <span className="detail-label">Order Type:</span>
+              <span className="detail-value">
+                {isPickup ? '🏪 Pickup' : '🚚 Delivery'}
+              </span>
+            </div>
 
-          {/* Customer Info */}
-          <div className="detail-section">
-            <h3>Customer Information</h3>
-            <div className="detail-grid">
-              <div className="detail-item">
-                <span className="detail-label">Name:</span>
-                <span className="detail-value">{customer?.name}</span>
+            <div className="detail-item">
+              <span className="detail-label">Payment Method:</span>
+              <span className="detail-value">
+                {orderInfo.paymentMethod === 'card' ? '💳 Card (Paid)' : 
+                 orderInfo.paymentMethod === 'transfer' ? '🏦 Bank Transfer' : 
+                 '💵 Cash on ' + (isPickup ? 'Pickup' : 'Delivery')}
+              </span>
+            </div>
+
+            <div className="detail-item">
+              <span className="detail-label">Total Amount:</span>
+              <span className="detail-value amount">
+                ₦{(orderInfo.total || 0).toLocaleString()}
+              </span>
+            </div>
+
+            <div className="detail-item">
+              <span className="detail-label">Estimated Time:</span>
+              <span className="detail-value">
+                {isPickup ? '15-20 minutes' : '30-45 minutes'}
+              </span>
+            </div>
+
+            {orderInfo.orderData?.customer?.name && (
+              <div className="detail-item full-width">
+                <span className="detail-label">Customer:</span>
+                <span className="detail-value">
+                  {orderInfo.orderData.customer.name}
+                </span>
               </div>
-              <div className="detail-item">
+            )}
+
+            {orderInfo.orderData?.customer?.phone && (
+              <div className="detail-item full-width">
                 <span className="detail-label">Phone:</span>
-                <span className="detail-value">{customer?.phone}</span>
+                <span className="detail-value">
+                  {orderInfo.orderData.customer.phone}
+                </span>
               </div>
-              {customer?.email && (
-                <div className="detail-item">
-                  <span className="detail-label">Email:</span>
-                  <span className="detail-value">{customer.email}</span>
-                </div>
-              )}
+            )}
+
+            {!isPickup && orderInfo.orderData?.customer?.address && (
+              <div className="detail-item full-width">
+                <span className="detail-label">Delivery Address:</span>
+                <span className="detail-value">
+                  {orderInfo.orderData.customer.address}, {orderInfo.orderData.customer.area}
+                </span>
+              </div>
+            )}
+          </div>
+        </div>
+
+        {/* Next Steps */}
+        <div className="next-steps-card">
+          <h3 className="steps-title">What Happens Next?</h3>
+          
+          <div className="steps-timeline">
+            <div className="step completed">
+              <div className="step-icon">✓</div>
+              <div className="step-content">
+                <h4>Order Confirmed</h4>
+                <p>Your order has been received</p>
+              </div>
+            </div>
+
+            <div className="step active">
+              <div className="step-icon">👨‍🍳</div>
+              <div className="step-content">
+                <h4>Preparing</h4>
+                <p>Our chef is preparing your delicious meal</p>
+              </div>
+            </div>
+
+            <div className="step">
+              <div className="step-icon">{isPickup ? '🏪' : '🚚'}</div>
+              <div className="step-content">
+                <h4>{isPickup ? 'Ready for Pickup' : 'Out for Delivery'}</h4>
+                <p>{isPickup ? 'We\'ll notify you when ready' : 'On the way to you'}</p>
+              </div>
+            </div>
+
+            <div className="step">
+              <div className="step-icon">😋</div>
+              <div className="step-content">
+                <h4>Enjoy!</h4>
+                <p>Enjoy your delicious meal</p>
+              </div>
             </div>
           </div>
+        </div>
 
-          {/* Delivery/Pickup Info */}
-          {orderType === 'delivery' ? (
-            <div className="detail-section">
-              <h3>Delivery Address</h3>
-              <div className="detail-grid">
-                <div className="detail-item full-width">
-                  <span className="detail-label">Address:</span>
-                  <span className="detail-value">{customer?.address}</span>
-                </div>
-                <div className="detail-item">
-                  <span className="detail-label">Area:</span>
-                  <span className="detail-value">{customer?.area}</span>
-                </div>
-                {customer?.notes && (
-                  <div className="detail-item full-width">
-                    <span className="detail-label">Notes:</span>
-                    <span className="detail-value">{customer.notes}</span>
+        {/* Payment Instructions (for cash/transfer) */}
+        {!isPaid && (
+          <div className="payment-instructions-card">
+            <h3 className="instructions-title">
+              💰 Payment Instructions
+            </h3>
+            {orderInfo.paymentMethod === 'transfer' ? (
+              <div className="transfer-details">
+                <p className="instructions-text">
+                  Please transfer ₦{(orderInfo.total || 0).toLocaleString()} to:
+                </p>
+                <div className="bank-details">
+                  <div className="bank-detail">
+                    <span className="bank-label">Bank Name:</span>
+                    <span className="bank-value">GTBank</span>
                   </div>
-                )}
-              </div>
-            </div>
-          ) : (
-            <div className="detail-section">
-              <h3>Pickup Location</h3>
-              <div className="pickup-location-info">
-                <p><strong>Masterpiece Shawarma</strong></p>
-                <p>15 Admiralty Way, Lekki Phase 1, Lagos</p>
-              </div>
-            </div>
-          )}
-
-          {/* Items Ordered */}
-          <div className="detail-section">
-            <h3>Items Ordered</h3>
-            <div className="items-list">
-              {cartItems?.map((item) => (
-                <div key={item.id} className="order-item">
-                  <div className="order-item-info">
-                    <span className="order-item-name">{item.name}</span>
-                    <span className="order-item-qty">x{item.quantity}</span>
+                  <div className="bank-detail">
+                    <span className="bank-label">Account Number:</span>
+                    <span className="bank-value">0123456789</span>
                   </div>
-                  <span className="order-item-price">
-                    ₦{(item.price * item.quantity).toLocaleString()}
-                  </span>
+                  <div className="bank-detail">
+                    <span className="bank-label">Account Name:</span>
+                    <span className="bank-value">Masterpiece Shawarma</span>
+                  </div>
                 </div>
-              ))}
-            </div>
+                <p className="instructions-note">
+                  ⚠️ Use order number <strong>{orderInfo.orderNumber}</strong> as reference
+                </p>
+              </div>
+            ) : (
+              <p className="instructions-text">
+                💵 Please have ₦{(orderInfo.total || 0).toLocaleString()} ready for payment on {isPickup ? 'pickup' : 'delivery'}
+              </p>
+            )}
           </div>
+        )}
 
-          {/* Payment Summary */}
-          <div className="detail-section">
-            <h3>Payment Summary</h3>
-            <div className="payment-breakdown">
-              <div className="payment-row">
-                <span>Subtotal</span>
-                <span>₦{subtotal?.toLocaleString()}</span>
-              </div>
-              {discount > 0 && (
-                <div className="payment-row discount">
-                  <span>Discount</span>
-                  <span>-₦{discount.toLocaleString()}</span>
-                </div>
-              )}
-              <div className="payment-row">
-                <span>{orderType === 'delivery' ? 'Delivery Fee' : 'Pickup'}</span>
-                <span>{orderType === 'delivery' ? `₦${deliveryFee?.toLocaleString()}` : 'Free'}</span>
-              </div>
-              <div className="payment-row total">
-                <span>Total</span>
-                <span>₦{total?.toLocaleString()}</span>
-              </div>
-            </div>
-
-            <div className="payment-method-info">
-              <strong>Payment Method:</strong>{' '}
-              {paymentMethod === 'cash' && `Cash on ${orderType === 'delivery' ? 'Delivery' : 'Pickup'}`}
-              {paymentMethod === 'card' && 'Card Payment'}
-              {paymentMethod === 'transfer' && 'Bank Transfer'}
-            </div>
+        {/* Contact Support */}
+        <div className="support-section">
+          <h3 className="support-title">Need Help?</h3>
+          <div className="support-buttons">
+            <button className="support-btn whatsapp" onClick={handleWhatsAppSupport}>
+              <FaWhatsapp /> WhatsApp Us
+            </button>
+            <button className="support-btn phone" onClick={handleCallSupport}>
+              <FaPhone /> Call Us
+            </button>
           </div>
         </div>
 
         {/* Action Buttons */}
-        <div className="success-actions">
-          <button 
-            className="whatsapp-btn"
-            onClick={handleWhatsAppContact}
-          >
-            <FaWhatsapp /> Contact on WhatsApp
+        <div className="action-buttons">
+          <button className="btn-secondary" onClick={() => navigate('/menu')}>
+            Order More
           </button>
-
-          <button 
-            className="home-btn"
-            onClick={() => navigate('/')}
-          >
-            <FaHome /> Back to Home
+          <button className="btn-primary" onClick={() => navigate('/')}>
+            <FaHome /> Go Home
           </button>
         </div>
 
-        {/* What's Next */}
-        <div className="whats-next-card">
-          <h3>📱 What's Next?</h3>
-          <ul>
-            <li>✅ We'll send you a confirmation on WhatsApp</li>
-            <li>👨‍🍳 Our chef is preparing your order</li>
-            {orderType === 'delivery' ? (
-              <li>🚚 A driver will deliver to your location</li>
-            ) : (
-              <li>🏪 Visit our location to pick up your order</li>
-            )}
-            <li>🍽️ Enjoy your delicious meal!</li>
-          </ul>
+        {/* Thank You Note */}
+        <div className="thank-you-note">
+          <p>Thank you for choosing Masterpiece Shawarma! 🌯</p>
+          <p className="thank-you-small">
+            We can't wait to serve you the best shawarma in Lagos!
+          </p>
         </div>
       </div>
     </div>

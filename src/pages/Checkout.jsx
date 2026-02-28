@@ -2,7 +2,9 @@ import '../App.css';
 import '../Checkout.css';
 import { useState } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
-import { FaUser, FaPhone, FaMapMarkerAlt, FaCreditCard, FaMoneyBillWave, FaCheckCircle, FaTruck, FaShoppingBag } from 'react-icons/fa';
+import { initializePaystackPayment, generateReference } from '../services/paymentService';
+import { createOrder } from '../services/orderService';
+import { FaUser, FaPhone, FaMapMarkerAlt, FaCreditCard, FaCheckCircle, FaTruck, FaShoppingBag } from 'react-icons/fa';
 
 function Checkout({ clearCart }) {
   const navigate = useNavigate();
@@ -25,14 +27,14 @@ function Checkout({ clearCart }) {
 
   // Delivery areas
   const deliveryAreas = [
-    'Lekki Phase 1',
-    'Lekki Phase 2',
-    'Victoria Island',
-    'Ikoyi',
-    'Ajah',
-    'Oniru',
-    'Eti-Osa'
+    'Fatgbems',
+    'Arepo',
+    'Warewa'
   ];
+
+  // Calculate delivery fee
+  const deliveryFee = orderType === 'delivery' ? (orderData.deliveryFee || 500) : 0;
+  const finalTotal = (orderData.subtotal || 0) - (orderData.discount || 0) + deliveryFee;
 
   // Handle input change
   const handleInputChange = (e) => {
@@ -73,8 +75,232 @@ function Checkout({ clearCart }) {
       }
     }
 
+    // Email validation if provided
+    if (formData.email && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formData.email)) {
+      newErrors.email = 'Invalid email address';
+    }
+
+    // For card payment, email is required
+    if (paymentMethod === 'card' && !formData.email) {
+      newErrors.email = 'Email is required for card payment';
+    }
+
     setErrors(newErrors);
     return Object.keys(newErrors).length === 0;
+  };
+
+  // Payment success handler
+  const handlePaymentSuccess = async (response) => {
+    try {
+      console.log('✅ Payment successful:', response);
+      
+      // Generate order number
+      const orderNumber = `MP${Date.now().toString().slice(-8)}`;
+      
+      // Prepare order data
+      const orderToCreate = {
+        orderNumber,
+        items: orderData.cartItems || [],
+        customer: {
+          name: formData.name,
+          phone: formData.phone,
+          email: formData.email || 'N/A',
+          address: orderType === 'delivery' ? formData.address : 'Pickup at Restaurant',
+          area: formData.area || 'N/A',
+          notes: formData.notes || ''
+        },
+        orderType: orderType,
+        subtotal: orderData.subtotal || 0,
+        discount: orderData.discount || 0,
+        deliveryFee: deliveryFee,
+        total: finalTotal,
+        paymentMethod: 'card',
+        paymentStatus: 'paid',
+        payment: {
+          method: 'paystack',
+          status: 'paid',
+          reference: response.reference,
+          transactionId: response.transaction || response.trans,
+          paidAt: new Date().toISOString()
+        },
+        status: 'pending',
+        createdAt: new Date().toISOString()
+      };
+
+      console.log('💾 Saving order to Firebase...');
+      
+      // Save order to Firebase
+      const createdOrder = await createOrder(orderToCreate);
+      
+      console.log('✅ Order saved:', createdOrder);
+
+      // Clear cart
+      clearCart();
+
+      // Navigate to success page
+      navigate('/order-success', {
+        state: {
+          orderNumber: orderNumber,
+          orderId: createdOrder.id,
+          paymentReference: response.reference,
+          total: finalTotal,
+          orderData: {
+            ...orderData,
+            orderType,
+            paymentMethod: 'card',
+            customer: formData
+          }
+        }
+      });
+      
+    } catch (error) {
+      console.error('❌ Error creating order:', error);
+      alert(`Payment successful! However, there was an error saving your order.
+
+Reference: ${response.reference}
+
+Please contact us with this reference number.`);
+    } finally {
+      setIsSubmitting(false);
+    }
+  };
+
+  // Payment close handler
+  const handlePaymentClose = () => {
+    console.log('Payment window closed');
+    setIsSubmitting(false);
+    alert('Payment cancelled. Your order is still in the cart.');
+  };
+
+  // Handle Paystack payment
+  const handlePaystackPayment = () => {
+    if (!formData.email) {
+      alert('Email is required for card payment');
+      return;
+    }
+
+    setIsSubmitting(true);
+
+    try {
+      // Initialize Paystack payment
+      initializePaystackPayment({
+        email: formData.email,
+        amount: finalTotal,
+        reference: generateReference('MP'),
+        metadata: {
+          custom_fields: [
+            {
+              display_name: "Customer Name",
+              variable_name: "customer_name",
+              value: formData.name
+            },
+            {
+              display_name: "Phone Number",
+              variable_name: "phone",
+              value: formData.phone
+            },
+            {
+              display_name: "Order Type",
+              variable_name: "order_type",
+              value: orderType
+            },
+            {
+              display_name: "Delivery Area",
+              variable_name: "delivery_area",
+              value: formData.area || 'Pickup'
+            }
+          ],
+          order_details: {
+            items: orderData.cartItems?.map(item => ({
+              name: item.name,
+              quantity: item.quantity,
+              price: item.price
+            })) || [],
+            subtotal: orderData.subtotal || 0,
+            delivery_fee: deliveryFee,
+            discount: orderData.discount || 0,
+            total: finalTotal
+          }
+        },
+        onSuccess: handlePaymentSuccess,
+        onClose: handlePaymentClose
+      });
+    } catch (error) {
+      console.error('Payment initialization error:', error);
+      alert('Failed to initialize payment. Please try again.');
+      setIsSubmitting(false);
+    }
+  };
+
+  // Handle cash/transfer order submission
+  const handleCashOrder = async () => {
+    setIsSubmitting(true);
+
+    try {
+      // Generate order number
+      const orderNumber = `MP${Date.now().toString().slice(-8)}`;
+      
+      // Prepare order data
+      const orderToCreate = {
+        orderNumber,
+        items: orderData.cartItems || [],
+        customer: {
+          name: formData.name,
+          phone: formData.phone,
+          email: formData.email || 'N/A',
+          address: orderType === 'delivery' ? formData.address : 'Pickup at Restaurant',
+          area: formData.area || 'N/A',
+          notes: formData.notes || ''
+        },
+        orderType: orderType,
+        subtotal: orderData.subtotal || 0,
+        discount: orderData.discount || 0,
+        deliveryFee: deliveryFee,
+        total: finalTotal,
+        paymentMethod: paymentMethod,
+        paymentStatus: 'pending',
+        payment: {
+          method: paymentMethod,
+          status: 'pending',
+          reference: orderNumber,
+          paidAt: null
+        },
+        status: 'pending',
+        createdAt: new Date().toISOString()
+      };
+
+      console.log('💾 Saving order to Firebase...');
+      
+      // Save order to Firebase
+      const createdOrder = await createOrder(orderToCreate);
+      
+      console.log('✅ Order saved:', createdOrder);
+
+      // Clear cart
+      clearCart();
+
+      // Navigate to success page
+      navigate('/order-success', {
+        state: {
+          orderNumber: orderNumber,
+          orderId: createdOrder.id,
+          total: finalTotal,
+          paymentMethod: paymentMethod,
+          orderData: {
+            ...orderData,
+            orderType,
+            paymentMethod,
+            customer: formData
+          }
+        }
+      });
+      
+    } catch (error) {
+      console.error('❌ Error creating order:', error);
+      alert('Failed to place order. Please try again.');
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   // Handle order submission
@@ -85,56 +311,35 @@ function Checkout({ clearCart }) {
       return;
     }
 
-    setIsSubmitting(true);
+    // Check if cart has items
+    if (!orderData.cartItems || orderData.cartItems.length === 0) {
+      alert('Your cart is empty');
+      navigate('/cart');
+      return;
+    }
 
-    try {
-      // Import the order service
-      const { createOrder } = await import('../services/orderService');
-      
-      // Prepare order data
-      const orderToCreate = {
-        items: orderData.cartItems,
-        customer: formData,
-        orderType: orderType,
-        address: orderType === 'delivery' ? {
-          street: formData.address,
-          area: formData.area
-        } : null,
-        subtotal: orderData.subtotal,
-        discount: orderData.discount || 0,
-        deliveryFee: orderType === 'delivery' ? orderData.deliveryFee : 0,
-        total: orderData.total,
-        paymentMethod: paymentMethod,
-        paymentStatus: paymentMethod === 'cash' ? 'pending' : 'awaiting',
-        notes: formData.notes
-      };
-
-      // Save order to Firebase
-      const createdOrder = await createOrder(orderToCreate);
-      
-      console.log('✅ Order saved to Firebase:', createdOrder);
-
-      // Navigate to success page
-      navigate('/order-success', {
-        state: {
-          orderNumber: createdOrder.orderNumber,
-          orderData: {
-            ...orderData,
-            orderType,
-            paymentMethod,
-            customer: formData
-          }
-        }
-      });
-
-      // Clear cart
-      clearCart();
-    } catch (error) {
-      console.error('❌ Error creating order:', error);
-      alert('Failed to place order. Please try again.');
-      setIsSubmitting(false);
+    // Route to appropriate payment handler
+    if (paymentMethod === 'card') {
+      handlePaystackPayment();
+    } else {
+      handleCashOrder();
     }
   };
+
+  // Redirect if no order data
+  if (!orderData.cartItems || orderData.cartItems.length === 0) {
+    return (
+      <div className="checkout-page">
+        <div className="empty-checkout">
+          <h2>🛒 Your cart is empty</h2>
+          <p>Add some items to your cart before checking out</p>
+          <button className="btn-primary" onClick={() => navigate('/cart')}>
+            Go to Cart
+          </button>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="checkout-page">
@@ -224,7 +429,9 @@ function Checkout({ clearCart }) {
               </div>
 
               <div className="form-group full-width">
-                <label htmlFor="email">Email (Optional)</label>
+                <label htmlFor="email">
+                  Email {paymentMethod === 'card' && '*'}
+                </label>
                 <input
                   type="email"
                   id="email"
@@ -232,7 +439,12 @@ function Checkout({ clearCart }) {
                   value={formData.email}
                   onChange={handleInputChange}
                   placeholder="john@example.com"
+                  className={errors.email ? 'error' : ''}
                 />
+                {errors.email && <span className="error-message">{errors.email}</span>}
+                {paymentMethod === 'card' && (
+                  <small className="field-note">Email is required for card payment</small>
+                )}
               </div>
             </div>
           </section>
@@ -253,7 +465,7 @@ function Checkout({ clearCart }) {
                     name="address"
                     value={formData.address}
                     onChange={handleInputChange}
-                    placeholder="15 Admiralty Way"
+                    placeholder="123 Main Street, Apartment 4B"
                     className={errors.address ? 'error' : ''}
                   />
                   {errors.address && <span className="error-message">{errors.address}</span>}
@@ -283,7 +495,7 @@ function Checkout({ clearCart }) {
                     name="notes"
                     value={formData.notes}
                     onChange={handleInputChange}
-                    placeholder="E.g., Ring doorbell twice, Apartment 4B"
+                    placeholder="Building landmarks, gate code, special instructions..."
                     rows="3"
                   ></textarea>
                 </div>
@@ -378,21 +590,19 @@ function Checkout({ clearCart }) {
           <h2 className="summary-title">Order Summary</h2>
 
           {/* Items List */}
-          {orderData.cartItems && (
-            <div className="summary-items">
-              {orderData.cartItems.map((item) => (
-                <div key={item.id} className="summary-item">
-                  <div className="summary-item-info">
-                    <span className="summary-item-name">{item.name}</span>
-                    <span className="summary-item-qty">x{item.quantity}</span>
-                  </div>
-                  <span className="summary-item-price">
-                    ₦{(item.price * item.quantity).toLocaleString()}
-                  </span>
+          <div className="summary-items">
+            {orderData.cartItems.map((item) => (
+              <div key={item.id} className="summary-item">
+                <div className="summary-item-info">
+                  <span className="summary-item-name">{item.name}</span>
+                  <span className="summary-item-qty">x{item.quantity}</span>
                 </div>
-              ))}
-            </div>
-          )}
+                <span className="summary-item-price">
+                  ₦{(item.price * item.quantity).toLocaleString()}
+                </span>
+              </div>
+            ))}
+          </div>
 
           {/* Price Breakdown */}
           <div className="summary-breakdown">
@@ -410,12 +620,12 @@ function Checkout({ clearCart }) {
 
             <div className="summary-row">
               <span>{orderType === 'delivery' ? 'Delivery Fee' : 'Pickup'}</span>
-              <span>{orderType === 'delivery' ? `₦${(orderData.deliveryFee || 0).toLocaleString()}` : 'Free'}</span>
+              <span>{orderType === 'delivery' ? `₦${deliveryFee.toLocaleString()}` : 'Free'}</span>
             </div>
 
             <div className="summary-row total">
               <span>Total</span>
-              <span>₦{(orderData.total || 0).toLocaleString()}</span>
+              <span>₦{finalTotal.toLocaleString()}</span>
             </div>
           </div>
 
@@ -432,7 +642,8 @@ function Checkout({ clearCart }) {
               </>
             ) : (
               <>
-                <FaCheckCircle /> Place Order
+                <FaCheckCircle /> 
+                {paymentMethod === 'card' ? `Pay ₦${finalTotal.toLocaleString()}` : 'Place Order'}
               </>
             )}
           </button>

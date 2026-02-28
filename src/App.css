@@ -27,6 +27,7 @@ body {
   min-height: 100vh;
   display: flex;
   flex-direction: column;
+  over-flow-x: hidden;
 }
 
 /* ============================================
@@ -879,8 +880,9 @@ body {
   content: '';
   position: absolute;
   top: 0;
-  left: -100vw;
-  right: -100vw;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 100vw;
   bottom: 0;
   background: linear-gradient(
     135deg,
