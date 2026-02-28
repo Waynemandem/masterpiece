@@ -1,13 +1,12 @@
 import { useEffect, useState } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { FaCheckCircle, FaWhatsapp, FaPhone, FaReceipt, FaHome } from 'react-icons/fa';
-import Confetti from 'react-confetti';
 import '../App.css';
 
 function OrderSuccess() {
   const navigate = useNavigate();
   const location = useLocation();
-  const orderInfo = location.state || {};
+  const orderInfo = location.state;
 
   const [showConfetti, setShowConfetti] = useState(true);
   const [windowSize, setWindowSize] = useState({
