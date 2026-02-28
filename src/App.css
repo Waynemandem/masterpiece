@@ -27,7 +27,7 @@ body {
   min-height: 100vh;
   display: flex;
   flex-direction: column;
-  over-flow-x: hidden;
+  overflow-x: hidden;
 }
 
 /* ============================================
