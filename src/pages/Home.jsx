@@ -173,6 +173,8 @@ function Home() {
         </div>
       </section>
 
+      <div className="section-divider" />
+
       {/* Quick Reorder Section */}
       <section className="quick-reorder-section">
         <div className="section-header">
@@ -218,42 +220,63 @@ function Home() {
         </div>
       </section>
 
-      {/* Features Section */}
-      <section className="features-section">
-        <h2 className="features-title">Why Choose Us?</h2>
-        
-        <div className="features-grid">
-          <div className="feature-card">
-            <div className="feature-icon">🥬</div>
-            <h3>Fresh Ingredients</h3>
-            <div className="feature-rating">
-              <FaStar className="star" />
-              <FaStar className="star" />
-              <FaStar className="star" />
-              <FaStar className="star" />
-              <FaStar className="star" />
-            </div>
+      <div className="section-divider" />
+
+
+      {/* gallery Section */}
+      <section className="gallery-section">
+          <div className="gallery-section-header">
+            <span className="gallery-tag">Our Gallery</span>
           </div>
 
-          <div className="feature-card">
-            <div className="feature-icon">⚡</div>
-            <h3>Fast Delivery</h3>
-            <p> Our average delivery is {liveStats.avgWaitTime} min </p>
-            <div className="feature-badge">
-              Average: {liveStats.avgWaitTime} mins
+          <div className="gallery-grid">
+            {[
+              {
+                src: "https://i.pinimg.com/736x/70/15/b0/7015b012d9e43a6bfe41bb7f7d3aca88.jpg",
+                alt: "Chicken Shawarma Wrap"
+              },
+              {
+                src: 'https://i.pinimg.com/736x/27/53/2c/27532c87e5eb3c158127aefba3a89b14.jpg',
+                alt: "Beef Shawarma Plate"
+              },
+              {
+                src: "https://i.pinimg.com/736x/9d/61/37/9d6137ea0f4d4ab2932a8b06b92e072f.jpg",
+                alt: "Mixed Grill Combo"
+              },
+              {
+                src: "https://i.pinimg.com/736x/0f/85/99/0f85992890b50bb48ac360cd23f76bf7.jpg",
+                alt: "Shawarma Wraps" 
+              },
+            ]
+            .map((img, i) => (
+              <div
+              clasName="gallery-card"
+              key={i}
+              style={{ animationDelay: `${i * 0.1}s` }}
+              onClick={() => navigate("/Gallery")}
+              >
+              <img src={img.src} alt={img.alt} loading="lazy" />
+              <div 
+              className="gallery-card-overlay">
+                <span>{img.alt}</span>
+              </div>
+              </div>
+            ))}
             </div>
-          </div>
 
-          <div className="feature-card">
-            <div className="feature-icon">💰</div>
-            <h3>Affordable Prices</h3>
-            <div className="feature-badge">
-              From ₦2000
+             <div className="gallery-cta">
+               <button
+                  className="primary-btn"
+                  onClick={() => navigate("/Gallery")}
+               >
+                View Full Gallery
+                <span className="btn-arrow">→</span>
+               </button>
             </div>
-          </div>
-        </div>
       </section>
-
+ 
+      <div className="section-divider" />
+      
       
       <section className="footer">
         <h2>Masterpiece Shawarma</h2>
