@@ -9,17 +9,17 @@ import { getStorage } from 'firebase/storage';
 // ============================================
 // FIREBASE CONFIG
 // ============================================
-// TODO: Replace with your actual Firebase config
-// Get this from Firebase Console > Project Settings > Your Apps
+// Configuration loaded from environment variables
+// See .env.example for required variables
 
 // Your web app's Firebase configuration
 const firebaseConfig = {
-  apiKey: "AIzaSyCBIuygY3Sq7XdM7YthtkWRHOlhDIAeFzo",
-  authDomain: "masterpiece-e82b2.firebaseapp.com",
-  projectId: "masterpiece-e82b2",
-  storageBucket: "masterpiece-e82b2.firebasestorage.app",
-  messagingSenderId: "480863399644",
-  appId: "1:480863399644:web:719e740314b44f7274ce19"
+  apiKey: import.meta.env.VITE_FIREBASE_API_KEY,
+  authDomain: import.meta.env.VITE_FIREBASE_AUTH_DOMAIN,
+  projectId: import.meta.env.VITE_FIREBASE_PROJECT_ID,
+  storageBucket: import.meta.env.VITE_FIREBASE_STORAGE_BUCKET,
+  messagingSenderId: import.meta.env.VITE_FIREBASE_MESSAGING_SENDER_ID,
+  appId: import.meta.env.VITE_FIREBASE_APP_ID
 };
 
 // ============================================
@@ -45,7 +45,7 @@ export default app;
  * Check if Firebase is properly initialized
  */
 export const isFirebaseConfigured = () => {
-  return firebaseConfig.apiKey !== "AIzaSyCBIuygY3Sq7XdM7YthtkWRHOlhDIAeFzo";
+  return !!(firebaseConfig.apiKey && firebaseConfig.projectId && firebaseConfig.authDomain);
 };
 
 /**

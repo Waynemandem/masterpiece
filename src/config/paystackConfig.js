@@ -1,11 +1,17 @@
 // paystack configuration 
 // src/config/paystackConfig.js
+// Configuration loaded from environment variables
 
 const paystackConfig = {
-    publicKey: 'pk_test_7c2d6be07d36ea7046409e7cf58a186db27bbba9',
+    publicKey: import.meta.env.VITE_PAYSTACK_PUBLIC_KEY,
     currency: 'NGN',
     // Payment channels to accept
-  channels: ['card', 'bank', 'ussd', 'qr', 'mobile_money', 'bank_transfer'],
+    channels: ['card', 'bank', 'ussd', 'qr', 'mobile_money', 'bank_transfer'],
 };
+
+// Validate Paystack configuration
+if (!paystackConfig.publicKey) {
+  console.error('❌ VITE_PAYSTACK_PUBLIC_KEY is not set in environment variables');
+}
 
 export default paystackConfig;

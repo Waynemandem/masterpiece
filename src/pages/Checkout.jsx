@@ -4,6 +4,8 @@ import { useState } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { initializePaystackPayment, generateReference } from '../services/paymentService';
 import { createOrder } from '../services/orderService';
+import { getFunctions, httpsCallable } from 'firebase/functions';
+import app from '../config/firebase';
 import { FaUser, FaPhone, FaMapMarkerAlt, FaCreditCard, FaCheckCircle, FaTruck, FaShoppingBag } from 'react-icons/fa';
 
 function Checkout({ clearCart }) {
@@ -89,15 +91,50 @@ function Checkout({ clearCart }) {
     return Object.keys(newErrors).length === 0;
   };
 
-  // Payment success handler
+  // Payment success handler - SECURE VERSION
+  // CRITICAL: Payment verification happens on backend (Cloud Function)
   const handlePaymentSuccess = async (response) => {
     try {
-      console.log('✅ Payment successful:', response);
+      console.log('🔒 Payment callback received, verifying on backend...');
       
-      // Generate order number
+      // ============================================
+      // STEP 1: VERIFY PAYMENT ON BACKEND
+      // ============================================
+      // This is CRITICAL for security - never trust client-side payment callbacks!
+      
+      const functions = getFunctions(app);
+      const verifyPayment = httpsCallable(functions, 'verifyPaystackPayment');
+      
+      let verificationResult;
+      try {
+        const result = await verifyPayment({
+          reference: response.reference,
+          amount: finalTotal
+        });
+        verificationResult = result.data;
+      } catch (verifyError) {
+        console.error('❌ Backend verification failed:', verifyError);
+        alert('Payment verification failed. Please contact support with reference: ' + response.reference);
+        setIsSubmitting(false);
+        return;
+      }
+
+      // Check verification result
+      if (!verificationResult.verified) {
+        console.error('❌ Payment verification returned false:', verificationResult);
+        alert('⚠️ Payment verification failed: ' + verificationResult.error);
+        setIsSubmitting(false);
+        return;
+      }
+
+      console.log('✅ Payment verified by backend:', verificationResult.data);
+
+      // ============================================
+      // STEP 2: CREATE ORDER (only after verified payment)
+      // ============================================
+      
       const orderNumber = `MP${Date.now().toString().slice(-8)}`;
       
-      // Prepare order data
       const orderToCreate = {
         orderNumber,
         items: orderData.cartItems || [],
@@ -119,26 +156,32 @@ function Checkout({ clearCart }) {
         payment: {
           method: 'paystack',
           status: 'paid',
-          reference: response.reference,
-          transactionId: response.transaction || response.trans,
-          paidAt: new Date().toISOString()
+          reference: verificationResult.data.reference,
+          verificationId: response.reference,
+          paidAt: verificationResult.data.paidAt,
+          // Store verification data for audit trail
+          verificationData: {
+            customerEmail: verificationResult.data.customer?.email,
+            cardLast4: verificationResult.data.authorization?.last4,
+            authorizedBy: verificationResult.data.authorization?.authorization_code,
+          }
         },
         status: 'pending',
         createdAt: new Date().toISOString()
       };
 
-      console.log('💾 Saving order to Firebase...');
-      
-      // Save order to Firebase
+      console.log('💾 Saving verified order to Firebase...');
       const createdOrder = await createOrder(orderToCreate);
-      
       console.log('✅ Order saved:', createdOrder);
 
       // Clear cart
       clearCart();
 
-      // Navigate to success page
-      navigate('/order-success', {
+      // Clear checkout form data
+      localStorage.removeItem('checkoutForm');
+
+      // Navigate to success
+      navigate('/ordersuccess', {
         state: {
           orderNumber: orderNumber,
           orderId: createdOrder.id,
@@ -154,12 +197,8 @@ function Checkout({ clearCart }) {
       });
       
     } catch (error) {
-      console.error('❌ Error creating order:', error);
-      alert(`Payment successful! However, there was an error saving your order.
-
-Reference: ${response.reference}
-
-Please contact us with this reference number.`);
+      console.error('❌ Error in payment flow:', error);
+      alert('Error processing your order: ' + error.message + '\n\nPlease contact support.');
     } finally {
       setIsSubmitting(false);
     }
