@@ -45,14 +45,14 @@ function OrderSuccess() {
 
   // WhatsApp support
   const handleWhatsAppSupport = () => {
-    const phone = '2348012345678'; // Replace with your WhatsApp number
+    const phone = '2347067027109'; // Replace with your WhatsApp number
     const message = `Hi! I just placed an order (${orderInfo.orderNumber}). I have a question.`;
     window.open(`https://wa.me/${phone}?text=${encodeURIComponent(message)}`, '_blank');
   };
 
   // Call support
   const handleCallSupport = () => {
-    window.location.href = 'tel:+2348012345678'; // Replace with your phone number
+    window.location.href = 'tel:+2347067027109'; // Replace with your phone number
   };
 
   if (!orderInfo.orderNumber) {
