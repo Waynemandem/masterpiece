@@ -77,3 +77,5 @@ if (!isFirebaseConfigured()) {
     '⚠️ Firebase is not configured! Please update src/config/firebase.js with your Firebase credentials.'
   );
 }
+
+console.log("API KEY:", import.meta.env.VITE_FIREBASE_API_KEY);
