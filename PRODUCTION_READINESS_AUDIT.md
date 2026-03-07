@@ -4,6 +4,8 @@
 
 ---
 
+ME; i added environment Variables to the project settings
+
 ## EXECUTIVE SUMMARY
 
 Your restaurant website has **solid foundations** but contains **critical security flaws, architectural limitations, and operational gaps** that would cause serious problems in production. The payment system is well-protected, but the rest of the application is vulnerable. **Do not launch this to real customers until major issues are resolved.**
