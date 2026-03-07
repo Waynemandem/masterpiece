@@ -79,3 +79,4 @@ if (!isFirebaseConfigured()) {
 }
 
 console.log("API KEY:", import.meta.env.VITE_FIREBASE_API_KEY);
+console.log("import.meta.env");
