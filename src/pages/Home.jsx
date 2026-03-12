@@ -61,8 +61,8 @@ function Home() {
       const checkOpenStatus = () => {
         const now = new Date();
         const hour = now.getHours();
-        // Open from 16 AM to 11 PM (23:00)
-        const isCurrentlyOpen = hour >= 16 && hour < 22;
+        // Open from 9 AM to 11 PM (23:00)
+        const isCurrentlyOpen = hour >= 9 && hour < 22;
         setIsOpen(isCurrentlyOpen);
       };
 
