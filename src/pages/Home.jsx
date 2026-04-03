@@ -244,7 +244,7 @@ function Home() {
             ]
             .map((img, i) => (
               <div
-              clasName="gallery-card"
+              className="gallery-card"
               key={i}
               style={{ animationDelay: `${i * 0.1}s` }}
               onClick={() => navigate("/Gallery")}
@@ -272,20 +272,17 @@ function Home() {
       <div className="section-divider" />
       
       
-      <section className="footer">
-        <h2>Masterpiece Shawarma</h2>
-        <p>Call us on {businessInfo.phone}</p>
-        <p>Or Visit us at {businessInfo.address}</p>
-
-         {/* Social Media */}
-              <section className="social-section">
-                <div className="section-header">
-                  <h2>Follow Us</h2>
-                  <p>Stay updated with our latest offers</p>
-                </div>
-              </section>
-
-      </section>
+      <footer className="footer">
+        {/* WHY: Changed <section> → <footer>. Semantic HTML matters
+            for accessibility and SEO. A footer landmark is indexed
+            differently by screen readers and search engines. */}
+        <p className="footer-brand">Masterpiece Shawarma</p>
+        <p className="footer-detail">{businessInfo.phone}</p>
+        <p className="footer-detail">{businessInfo.address}</p>
+        <p className="footer-copy">
+          &copy; {new Date().getFullYear()} Masterpiece Shawarma. All rights reserved.
+        </p>
+      </footer>
 
 
     </div>

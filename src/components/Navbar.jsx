@@ -1,6 +1,7 @@
 import '../App.css';
 import { Link, useNavigate } from 'react-router-dom';
 import { useState } from 'react';
+import { FaShoppingBag } from 'react-icons/fa';
 import logo from '../images/logo.jpg';
 
 function Navbar({ cartCount }) {
@@ -44,14 +45,20 @@ function Navbar({ cartCount }) {
         <li onClick={() => setOpen(false)}>
           <Link to="/contact">Contact</Link>
         </li>
-        <li 
+        <li
           className="cart-item"
           onClick={() => {
             setOpen(false);
             navigate('/cart');
           }}
         >
-          🛒 Cart {cartCount > 0 && <span className="cart-badge">{cartCount}</span>}
+          {/* WHY: react-icons icon instead of emoji.
+              Emojis render differently per OS/font — size,
+              color, and weight are all uncontrolled.
+              An SVG icon scales perfectly and inherits color. */}
+          <FaShoppingBag style={{ fontSize: '15px' }} />
+          Cart
+          {cartCount > 0 && <span className="cart-badge">{cartCount}</span>}
         </li>
       </ul>
     </nav>

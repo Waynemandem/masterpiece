@@ -1,5 +1,7 @@
 /* ============================================
    RESET & BASE STYLES
+   Design tokens live in index.css as CSS vars.
+   App.css contains component-level styles.
    ============================================ */
 * {
   margin: 0;
@@ -10,13 +12,19 @@
 html {
   scroll-behavior: smooth;
 }
+
 #root {
-  height: 100%;
+  min-height: 100vh;
   width: 100%;
+  display: flex;
+  flex-direction: column;
 }
 
 body {
-  background: linear-gradient(135deg, #0f172a 0%, #1a233e 100%);
+  /* Solid near-black: more premium than a gradient.
+     A gradient background competes visually with every section.
+     Flat black lets content and the gold accent do the work. */
+  background: #0a0a0a;
   color: #e5e7eb;
   font-size: 16px;
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
@@ -25,8 +33,6 @@ body {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   min-height: 100vh;
-  display: flex;
-  flex-direction: column;
   overflow-x: hidden;
 }
 
@@ -35,51 +41,88 @@ body {
    ============================================ */
 
 .navbar {
-  background-color: #111;
+  /* Solid surface — no blur initially.
+     Feels cleaner and more intentional than always-blurred. */
+  background: #111111;
   position: sticky;
   top: 0;
-  padding: 10px 50px;
+  /* clamp() = responsive without a media query */
+  padding: 12px clamp(20px, 5vw, 60px);
   display: flex;
   justify-content: space-between;
   align-items: center;
-  border-bottom: 1px solid #1f1f1f;
+  /* Subtle gold-tinted border aligns with brand; 1px is enough */
+  border-bottom: 1px solid rgba(201, 162, 39, 0.12);
   z-index: 100;
 }
 
 .logo img {
-  height: 50px;
+  height: 48px;
   width: auto;
   cursor: pointer;
-  border-radius: 30px;
+  /* 8px radius: brand mark, not an avatar.
+     30px radius made it look like a social profile picture. */
+  border-radius: 8px;
+  transition: opacity 0.2s ease;
+}
+
+.logo img:hover {
+  opacity: 0.85;
 }
 
 .nav-links {
   list-style: none;
   display: flex;
-  gap: 25px;
+  gap: 32px;
   align-items: center;
   margin: 0;
 }
 
 .nav-links a {
   text-decoration: none;
-  color: white;
-  font-size: 15px;
-  transition: color 0.2s ease;
+  color: #aaaaaa;
+  /* 13px tracking at 14px feels editorial; 15px was too large for nav */
+  font-size: 14px;
+  font-weight: 500;
+  letter-spacing: 0.3px;
+  transition: color var(--t-fast, 0.15s ease);
+  position: relative;
+}
+
+/* Underline slide-in: more refined than just color change */
+.nav-links a::after {
+  content: '';
+  position: absolute;
+  bottom: -3px;
+  left: 0;
+  width: 0;
+  height: 1px;
+  background: #c9a227;
+  transition: width 0.25s ease;
 }
 
 .nav-links a:hover {
-  color: #f4b400;
+  color: #f0f0f0;
+}
+
+.nav-links a:hover::after {
+  width: 100%;
 }
 
 .cart-item {
-  color: white;
-  font-size: 15px;
-  cursor: default;
+  color: #aaaaaa;
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
   position: relative;
   display: flex;
   align-items: center;
-  gap: 8px;
+  gap: 6px;
+  transition: color var(--t-fast, 0.15s ease);
+}
+
+.cart-item:hover {
+  color: #f0f0f0;
 }
 
 .cart-badge {
@@ -284,30 +327,17 @@ body {
   border-radius: 20px;
 }
 
-/* Today's Special Banner */
+/* Today's Special Banner
+   WHY: Flat gold background with no rotating overlay.
+   The rotating radial gradient had zero informational value
+   and created visual noise that competed with the text.
+   Brand confidence = letting the message speak. */
 .special-banner {
-  background: linear-gradient(135deg, #f4b400 0%, #ffd700 50%, #f4b400 100%);
-  padding: 40px 20px;
+  background: #c9a227;
+  padding: 32px 20px;
   text-align: center;
   position: relative;
   overflow: hidden;
-  animation: slideDown 0.8s ease-out;
-}
-
-.special-banner::before {
-  content: '';
-  position: absolute;
-  top: -50%;
-  left: -50%;
-  width: 200%;
-  height: 200%;
-  background: radial-gradient(circle, rgba(255, 255, 255, 0.1) 0%, transparent 70%);
-  animation: rotate 20s linear infinite;
-}
-
-@keyframes rotate {
-  from { transform: rotate(0deg); }
-  to { transform: rotate(360deg); }
 }
 
 .special-content {
@@ -321,29 +351,31 @@ body {
   display: inline-flex;
   align-items: center;
   gap: 8px;
-  padding: 8px 20px;
-  background: rgba(15, 23, 42, 0.9);
-  color: #f4b400;
-  font-size: 12px;
+  padding: 6px 16px;
+  background: rgba(10, 10, 10, 0.85);
+  color: #c9a227;
+  font-size: 11px;
   font-weight: 700;
   letter-spacing: 2px;
-  border-radius: 20px;
-  margin-bottom: 16px;
-  animation: float 3s ease-in-out infinite;
+  border-radius: 4px;
+  margin-bottom: 12px;
+  /* No float animation — static elements feel more premium */
 }
 
+/* Dark text on gold banner — high contrast, readable */
 .special-title {
-  font-size: clamp(28px, 6vw, 48px);
-  font-weight: 800;
-  color: #0f172a;
-  margin-bottom: 12px;
-  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
+  font-family: Georgia, serif;
+  font-size: clamp(24px, 5vw, 40px);
+  font-weight: 700;
+  color: #0a0a0a;
+  margin-bottom: 8px;
+  letter-spacing: -0.5px;
 }
 
 .special-description {
-  font-size: clamp(16px, 3vw, 20px);
-  color: #1e293b;
-  font-weight: 600;
+  font-size: clamp(14px, 2.5vw, 18px);
+  color: rgba(10, 10, 10, 0.75);
+  font-weight: 500;
   margin-bottom: 20px;
 }
 
@@ -358,12 +390,12 @@ body {
 .special-discount,
 .special-code,
 .special-valid {
-  padding: 8px 16px;
-  background: rgba(15, 23, 42, 0.9);
-  color: #ffffff;
-  font-size: 14px;
-  font-weight: 600;
-  border-radius: 8px;
+  padding: 6px 14px;
+  background: rgba(10, 10, 10, 0.8);
+  color: #f0f0f0;
+  font-size: 13px;
+  font-weight: 500;
+  border-radius: 4px;
 }
 
 .special-discount {
@@ -378,23 +410,28 @@ body {
 }
 
 .special-cta {
-  padding: 16px 40px;
-  background: #0f172a;
-  color: #f4b400;
-  font-size: 16px;
-  font-weight: 700;
+  padding: 12px 32px;
+  background: #0a0a0a;
+  color: #c9a227;
+  font-size: 14px;
+  font-weight: 600;
+  letter-spacing: 0.5px;
   border: none;
-  border-radius: 50px;
+  border-radius: 6px;
   cursor: pointer;
-  transition: all 0.3s ease;
-  box-shadow: 0 4px 15px rgba(15, 23, 42, 0.4);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
 }
 
 .special-cta:hover {
   transform: translateY(-2px);
-  box-shadow: 0 6px 20px rgba(15, 23, 42, 0.6);
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.3);
 }
 
+/* WHY: Removed background-attachment: fixed (parallax).
+   On iOS Safari and most mobile browsers, fixed attachment
+   is silently disabled AND causes layout repaints on scroll.
+   The parallax effect on desktop rarely justifies the cost.
+   Use scroll (default) for consistent cross-device behavior. */
 .hero-section {
   position: relative;
   height: 100vh;
@@ -405,7 +442,7 @@ body {
   background-image: url('https://images.unsplash.com/photo-1599487488170-d11ec9c172f0?w=1920&q=80');
   background-size: cover;
   background-position: center;
-  background-attachment: fixed;
+  background-attachment: scroll;
 }
 
 /* Live Order Widget */
@@ -591,65 +628,43 @@ body {
 }
 
 .view-orders-btn {
-  padding: 14px 36px;
+  padding: 12px 32px;
   background: transparent;
-  color: #f4b400;
-  font-size: 16px;
+  color: #c9a227;
+  font-size: 14px;
   font-weight: 600;
-  border: 2px solid #f4b400;
-  border-radius: 50px;
+  letter-spacing: 0.5px;
+  border: 1px solid rgba(201, 162, 39, 0.5);
+  border-radius: 6px;
   cursor: pointer;
-  transition: all 0.3s ease;
+  transition: border-color 0.2s ease, color 0.2s ease, transform 0.2s ease;
 }
 
 .view-orders-btn:hover {
-  background: rgba(244, 180, 0, 0.1);
+  border-color: #c9a227;
+  color: #e6bb45;
   transform: translateY(-2px);
-  box-shadow: 0 6px 20px rgba(244, 180, 0, 0.3);
 }
 
-/* Dark overlay for text readability */
+/* Dark overlay for text readability.
+   WHY: Single bottom-weighted gradient keeps the text
+   readable without darkening the full image. The triple
+   diagonal gradient created a distracting vignette pattern. */
 .hero-overlay {
   position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
+  inset: 0;
   background: linear-gradient(
-    135deg,
-    rgba(15, 23, 42, 0.85) 0%,
-    rgba(30, 41, 59, 0.75) 50%,
-    rgba(15, 23, 42, 0.85) 100%
+    to bottom,
+    rgba(0, 0, 0, 0.55) 0%,
+    rgba(0, 0, 0, 0.7) 100%
   );
   z-index: 1;
 }
 
-/* Animated grain texture overlay */
-.hero-overlay::before {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 400 400' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
-  opacity: 0.03;
-  animation: grain 8s steps(10) infinite;
-  pointer-events: none;
-}
-
-@keyframes grain {
-  0%, 100% { transform: translate(0, 0); }
-  10% { transform: translate(-5%, -10%); }
-  20% { transform: translate(-15%, 5%); }
-  30% { transform: translate(7%, -25%); }
-  40% { transform: translate(-5%, 25%); }
-  50% { transform: translate(-15%, 10%); }
-  60% { transform: translate(15%, 0%); }
-  70% { transform: translate(0%, 15%); }
-  80% { transform: translate(3%, 35%); }
-  90% { transform: translate(-10%, 10%); }
-}
+/* Grain animation removed.
+   WHY: It ran at 0.03 opacity — invisible to 99% of users,
+   but caused continuous GPU repaints every 800ms. The SVG
+   data URI also bloated the CSS. Net result: cost with no gain. */
 
 /* Hero Content */
 .hero-content {
@@ -672,34 +687,42 @@ body {
   }
 }
 
+/* WHY: hero-subtitle uses ALL CAPS + tight tracking.
+   This is the "eyebrow" technique — small text above a
+   large heading creates hierarchy without adding elements. */
 .hero-subtitle {
   display: inline-block;
-  font-size: 14px;
+  font-size: 11px;
   font-weight: 600;
   text-transform: uppercase;
-  letter-spacing: 3px;
-  color: #f4b400;
-  margin-bottom: 20px;
+  letter-spacing: 4px;
+  color: #c9a227;
+  margin-bottom: 16px;
   animation: fadeInUp 1s ease-out 0.2s backwards;
 }
 
+/* WHY: Georgia serif for the brand name creates an editorial,
+   premium feel — like a masthead. Pairing sans-serif body
+   with serif headings is a classic "fashion/food brand" move. */
 .hero-title {
-  font-size: clamp(36px, 8vw, 72px);
-  font-weight: 800;
-  line-height: 1.1;
+  font-size: clamp(36px, 8vw, 80px);
+  font-family: Georgia, 'Times New Roman', serif;
+  font-weight: 700;
+  line-height: 1.05;
   margin-bottom: 24px;
   color: #ffffff;
-  text-shadow: 2px 4px 8px rgba(0, 0, 0, 0.5);
+  letter-spacing: -1px;
   animation: fadeInUp 1s ease-out 0.4s backwards;
 }
 
+/* WHY: Single flat gold color instead of gradient clip.
+   Gradient text on a dark bg at large sizes often renders
+   inconsistently across browsers. Flat color is dependable. */
 .hero-title-accent {
   display: block;
-  background: linear-gradient(135deg, #f4b400 0%, #ffd700 100%);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
-  margin-top: 8px;
+  color: #c9a227;
+  font-style: italic;   /* Italic serif accent = editorial signature */
+  margin-top: 4px;
 }
 
 .hero-description {
@@ -719,59 +742,53 @@ body {
   animation: fadeInUp 1s ease-out 0.8s backwards;
 }
 
+/* ── BUTTON SYSTEM ────────────────────────────────────────
+   WHY: Two button variants, consistent padding, no ripple.
+   The ripple (::before expanding circle) is a Material Design
+   pattern that clashes with the premium minimal aesthetic.
+   Premium brands use clean lift-on-hover instead.
+
+   border-radius: 6px instead of 50px (pill).
+   WHY: Full pills work for tags/badges. For CTAs they make
+   buttons look like loading indicators. Slight radius looks
+   deliberate and confident.
+────────────────────────────────────────────────────────── */
 .btn {
-  display: inline-block;
-  padding: 16px 40px;
-  font-size: 16px;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 14px 36px;
+  font-size: 14px;
   font-weight: 600;
+  letter-spacing: 0.5px;
   text-decoration: none;
-  border-radius: 50px;
-  transition: all 0.3s ease;
-  position: relative;
-  overflow: hidden;
+  border-radius: 6px;
   border: none;
   cursor: pointer;
-}
-
-.btn::before {
-  content: '';
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  width: 0;
-  height: 0;
-  border-radius: 50%;
-  background: rgba(255, 255, 255, 0.2);
-  transform: translate(-50%, -50%);
-  transition: width 0.6s, height 0.6s;
-}
-
-.btn:hover::before {
-  width: 300px;
-  height: 300px;
+  transition: transform 0.2s ease, box-shadow 0.2s ease, background 0.2s ease;
 }
 
 .btn-primary {
-  background: linear-gradient(135deg, #f4b400 0%, #ffd700 100%);
-  color: #111;
-  box-shadow: 0 4px 15px rgba(244, 180, 0, 0.4);
+  background: #c9a227;
+  color: #0a0a0a;
 }
 
 .btn-primary:hover {
+  background: #e6bb45;
   transform: translateY(-2px);
-  box-shadow: 0 6px 20px rgba(244, 180, 0, 0.6);
+  box-shadow: 0 6px 20px rgba(201, 162, 39, 0.4);
 }
 
 .btn-secondary {
   background: transparent;
-  color: white;
-  border: 2px solid #f4b400;
+  color: #f0f0f0;
+  border: 1px solid rgba(201, 162, 39, 0.5);
 }
 
 .btn-secondary:hover {
-  background: rgba(244, 180, 0, 0.1);
+  border-color: #c9a227;
+  color: #c9a227;
   transform: translateY(-2px);
-  box-shadow: 0 6px 20px rgba(244, 180, 0, 0.3);
 }
 
 /* Scroll Indicator */
@@ -838,31 +855,22 @@ body {
    SECTION DIVIDERS
    ============================================ */
 
+/* Section Divider — clean 1px rule.
+   WHY: The glowing center dot was decorative clutter.
+   In premium editorial design (Monocle, NY Times Cooking,
+   etc.) dividers are invisible infrastructure — not features.
+   A simple gradient line guides the eye without shouting. */
 .section-divider {
   width: 100%;
   height: 1px;
   background: linear-gradient(
     90deg,
     transparent 0%,
-    rgba(244, 180, 0, 0.15) 20%,
-    rgba(244, 180, 0, 0.5) 50%,
-    rgba(244, 180, 0, 0.15) 80%,
+    rgba(201, 162, 39, 0.2) 30%,
+    rgba(201, 162, 39, 0.2) 70%,
     transparent 100%
   );
-  position: relative;
-}
-
-.section-divider::before {
-  content: '';
-  position: absolute;
-  top: -3px;
-  left: 50%;
-  transform: translateX(-50%);
-  width: 6px;
-  height: 6px;
-  background: #f4b400;
-  border-radius: 50%;
-  box-shadow: 0 0 12px rgba(244, 180, 0, 0.8);
+  margin: 0;
 }
 
 /* ============================================
@@ -899,28 +907,33 @@ body {
   margin-bottom: 56px;
 }
 
+/* WHY: Gallery tag uses no border-radius pill here.
+   Rectangular labels feel more editorial than pills.
+   Pills are for interactive chips (filter buttons). */
 .gallery-tag {
   display: inline-block;
-  padding: 6px 18px;
-  background: rgba(244, 180, 0, 0.12);
-  border: 1px solid rgba(244, 180, 0, 0.35);
-  color: #f4b400;
-  font-size: 12px;
-  font-weight: 700;
+  padding: 4px 12px;
+  background: transparent;
+  border: 1px solid rgba(201, 162, 39, 0.35);
+  color: #c9a227;
+  font-size: 11px;
+  font-weight: 600;
   letter-spacing: 3px;
   text-transform: uppercase;
-  border-radius: 20px;
-  margin-bottom: 16px;
+  border-radius: 3px;
+  margin-bottom: 20px;
 }
 
+/* WHY: Remove gradient background-clip text.
+   It renders as pure white on some browsers and creates
+   invisible text in others. Plain white on dark is
+   high contrast, accessible, and always renders correctly. */
 .gallery-section-header h2 {
+  font-family: Georgia, serif;
   font-size: clamp(28px, 5vw, 42px);
-  font-weight: 800;
-  color: #ffffff;
-  background: linear-gradient(135deg, #ffffff 0%, #cbd5e1 100%);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
+  font-weight: 700;
+  color: #f0f0f0;
+  letter-spacing: -0.5px;
 }
 
 /* Gallery Grid */
@@ -1028,32 +1041,36 @@ body {
 /* CTA Button */
 .gallery-cta {
   text-align: center;
-  margin-top: 8px;
+  margin-top: 24px;
 }
 
+/* WHY: .primary-btn unifies with the .btn system.
+   Flat gold background instead of linear-gradient —
+   same reasoning as btn-primary above. */
 .primary-btn {
   display: inline-flex;
   align-items: center;
-  gap: 10px;
-  padding: 14px 36px;
-  background: linear-gradient(135deg, #f4b400 0%, #ffd700 100%);
-  color: #111;
-  font-size: 15px;
-  font-weight: 700;
+  gap: 8px;
+  padding: 13px 32px;
+  background: #c9a227;
+  color: #0a0a0a;
+  font-size: 14px;
+  font-weight: 600;
+  letter-spacing: 0.5px;
   border: none;
-  border-radius: 50px;
+  border-radius: 6px;
   cursor: pointer;
-  transition: all 0.3s ease;
-  box-shadow: 0 4px 20px rgba(244, 180, 0, 0.35);
+  transition: transform 0.2s ease, box-shadow 0.2s ease, background 0.2s ease;
 }
 
 .primary-btn:hover {
-  transform: translateY(-3px);
-  box-shadow: 0 8px 28px rgba(244, 180, 0, 0.55);
+  background: #e6bb45;
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(201, 162, 39, 0.35);
 }
 
 .btn-arrow {
-  transition: transform 0.3s ease;
+  transition: transform 0.25s ease;
 }
 
 .primary-btn:hover .btn-arrow {
@@ -1091,50 +1108,42 @@ body {
 }
 
 /* ============================================
-   FOOTER — tighten and clean
+   FOOTER — minimal, functional
+   WHY: Footer is information, not design. Dark background,
+   small text, centered. No gradients, no icons, no section
+   headers. The contrast with the content above draws a
+   natural close to the page — like the colophon in a book.
    ============================================ */
 
 .footer {
-  background: linear-gradient(135deg, #0a1020 0%, #0d0d2b 100%);
-  border-top: 1px solid rgba(244, 180, 0, 0.12);
-  padding: 48px 20px 32px;
+  background: #0a0a0a;
+  border-top: 1px solid #1e1e1e;
+  padding: 40px 20px;
   text-align: center;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  align-items: center;
 }
 
-.footer h2 {
-  font-size: 24px;
-  font-weight: 800;
-  color: #f4b400;
-  margin-bottom: 8px;
-}
-
-.footer p {
-  color: #94a3b8;
-  font-size: 15px;
-  margin: 4px 0;
-}
-
-.footer .social-section {
-  padding: 24px 0 0;
-}
-
-.footer .section-header {
-  margin-bottom: 0;
-}
-
-.footer .section-header h2 {
+.footer-brand {
+  font-family: Georgia, serif;
   font-size: 18px;
   font-weight: 700;
-  color: #cbd5e1;
+  color: #c9a227;
+  letter-spacing: 0.5px;
   margin-bottom: 4px;
-  /* override gradient clip for smaller footer heading */
-  background: none;
-  -webkit-text-fill-color: #cbd5e1;
 }
 
-.footer .section-header p {
-  font-size: 14px;
-  color: #64748b;
+.footer-detail {
+  font-size: 13px;
+  color: #666;
+}
+
+.footer-copy {
+  font-size: 12px;
+  color: #444;
+  margin-top: 8px;
 }
 
 /* ============================================

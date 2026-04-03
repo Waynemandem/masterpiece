@@ -1,68 +1,129 @@
+/* ============================================================
+   DESIGN SYSTEM — MASTER TOKENS
+   All colors, spacing, and type scale live here as CSS
+   custom properties. Reference these in every component.
+   ============================================================ */
+
 :root {
-  font-family: system-ui, Avenir, Helvetica, Arial, sans-serif;
-  line-height: 1.5;
-  font-weight: 400;
+  /* --- Color Palette (2 main + neutrals) --- */
+  --gold:          #c9a227;   /* Primary accent — more refined than #f4b400 */
+  --gold-light:    #e6bb45;   /* Lighter gold for gradients / hover states */
+  --gold-muted:    rgba(201, 162, 39, 0.15); /* Tinted backgrounds */
+  --gold-border:   rgba(201, 162, 39, 0.25); /* Subtle gold borders */
 
-  color-scheme: light dark;
-  color: rgba(255, 255, 255, 0.87);
-  background-color: #242424;
+  --bg:            #0a0a0a;   /* True near-black — feels premium, not blue-navy */
+  --surface:       #111111;   /* Elevated surface (cards, navbar) */
+  --surface-2:     #1a1a1a;   /* Double-elevated (modals, inputs) */
+  --border:        #242424;   /* Default border */
+  --border-subtle: rgba(255, 255, 255, 0.05);
 
-  font-synthesis: none;
-  text-rendering: optimizeLegibility;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+  --text:          #f0f0f0;   /* Primary text */
+  --text-2:        #888888;   /* Secondary / meta text */
+  --text-3:        #555555;   /* Muted / disabled */
+
+  --green:         #22c55e;
+  --red:           #ef4444;
+
+  /* --- Typography --- */
+  --font-sans: -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif;
+  /* Use Georgia for editorial headings — premium feel without external font */
+  --font-serif: Georgia, 'Times New Roman', serif;
+
+  /* Type scale (use these instead of magic px values) */
+  --text-xs:   11px;
+  --text-sm:   13px;
+  --text-base: 16px;
+  --text-lg:   18px;
+  --text-xl:   24px;
+  --text-2xl:  32px;
+  --text-3xl:  clamp(32px, 5vw, 48px);
+  --text-4xl:  clamp(40px, 7vw, 72px);
+
+  /* --- Spacing scale (base 8px) --- */
+  --sp-1:  4px;
+  --sp-2:  8px;
+  --sp-3:  16px;
+  --sp-4:  24px;
+  --sp-5:  40px;
+  --sp-6:  64px;
+  --sp-7:  96px;
+
+  /* --- Border radius --- */
+  --r-sm:   4px;
+  --r-md:   8px;
+  --r-lg:   12px;
+  --r-xl:   20px;
+  --r-full: 9999px;
+
+  /* --- Transitions --- */
+  --t-fast: 0.15s ease;
+  --t-base: 0.25s ease;
+  --t-slow: 0.4s ease;
+
+  /* --- Shadows --- */
+  --shadow-sm:  0 1px 4px rgba(0,0,0,0.4);
+  --shadow-md:  0 4px 16px rgba(0,0,0,0.5);
+  --shadow-gold: 0 4px 20px rgba(201, 162, 39, 0.3);
 }
 
-a {
-  font-weight: 500;
-  color: #646cff;
-  text-decoration: inherit;
+/* ============================================================
+   RESET
+   ============================================================ */
+
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
 }
-a:hover {
-  color: #535bf2;
+
+html {
+  scroll-behavior: smooth;
+  font-size: 16px;
 }
+
+/* ============================================================
+   BASE
+   ============================================================ */
 
 body {
-  margin: 0;
-  display: flex;
-  place-items: center;
-  min-width: 320px;
+  font-family: var(--font-sans);
+  font-size: var(--text-base);
+  line-height: 1.6;
+  color: var(--text);
+  background: var(--bg);
   min-height: 100vh;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  overflow-x: hidden;
 }
 
-h1 {
-  font-size: 3.2em;
-  line-height: 1.1;
+#root {
+  min-height: 100vh;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
 }
 
+/* Clean link defaults — components style their own links */
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+/* Consistent button base */
 button {
-  border-radius: 8px;
-  border: 1px solid transparent;
-  padding: 0.6em 1.2em;
-  font-size: 1em;
-  font-weight: 500;
-  font-family: inherit;
-  background-color: #1a1a1a;
+  font-family: var(--font-sans);
   cursor: pointer;
-  transition: border-color 0.25s;
-}
-button:hover {
-  border-color: #646cff;
-}
-button:focus,
-button:focus-visible {
-  outline: 4px auto -webkit-focus-ring-color;
+  border: none;
+  background: none;
 }
 
-@media (prefers-color-scheme: light) {
-  :root {
-    color: #213547;
-    background-color: #ffffff;
-  }
-  a:hover {
-    color: #747bff;
-  }
-  button {
-    background-color: #f9f9f9;
-  }
+button:focus-visible {
+  outline: 2px solid var(--gold);
+  outline-offset: 2px;
+}
+
+img {
+  max-width: 100%;
+  display: block;
 }

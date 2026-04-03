@@ -5,7 +5,7 @@
 .cart-page {
   width: 100%;
   min-height: 100vh;
-  background: #0f172a;
+  background: #0a0a0a;
   padding-bottom: 60px;
 }
 
@@ -15,9 +15,9 @@
 
 .cart-header {
   text-align: center;
-  padding: 60px 20px 40px;
-  background: linear-gradient(135deg, rgba(244, 180, 0, 0.1) 0%, rgba(15, 23, 42, 0.9) 100%);
-  border-bottom: 1px solid rgba(244, 180, 0, 0.1);
+  padding: 48px 20px 32px;
+  background: #111111;
+  border-bottom: 1px solid #1e1e1e;
   position: relative;
 }
 
@@ -107,20 +107,22 @@
 }
 
 .browse-menu-btn {
-  padding: 16px 40px;
-  background: linear-gradient(135deg, #f4b400 0%, #ffd700 100%);
-  color: #111;
-  font-size: 16px;
-  font-weight: 700;
+  padding: 14px 36px;
+  background: #c9a227;
+  color: #0a0a0a;
+  font-size: 14px;
+  font-weight: 600;
+  letter-spacing: 0.5px;
   border: none;
-  border-radius: 50px;
+  border-radius: 6px;
   cursor: pointer;
-  transition: all 0.3s ease;
+  transition: transform 0.2s ease, box-shadow 0.2s ease, background 0.2s ease;
 }
 
 .browse-menu-btn:hover {
+  background: #e6bb45;
   transform: translateY(-2px);
-  box-shadow: 0 8px 24px rgba(244, 180, 0, 0.4);
+  box-shadow: 0 6px 20px rgba(201, 162, 39, 0.35);
 }
 
 /* ============================================
@@ -138,17 +140,15 @@
   grid-template-columns: 120px 1fr auto;
   gap: 20px;
   padding: 20px;
-  background: rgba(30, 41, 59, 0.6);
-  backdrop-filter: blur(10px);
-  border: 1px solid rgba(244, 180, 0, 0.1);
-  border-radius: 16px;
-  transition: all 0.3s ease;
+  background: #141414;
+  border: 1px solid #222;
+  border-radius: 10px;
+  transition: border-color 0.2s ease;
   animation: fadeInUp 0.4s ease-out backwards;
 }
 
 .cart-item:hover {
-  border-color: rgba(244, 180, 0, 0.3);
-  box-shadow: 0 8px 24px rgba(244, 180, 0, 0.15);
+  border-color: rgba(201, 162, 39, 0.3);
 }
 
 .cart-item-image {
@@ -269,15 +269,18 @@
    ORDER SUMMARY
    ============================================ */
 
+/* WHY: Removed backdrop-filter blur from summary card.
+   Blur effects cause GPU compositing on every scroll event.
+   Solid #141414 surface achieves the same visual separation
+   without the performance cost. */
 .order-summary {
   position: sticky;
   top: 80px;
   height: fit-content;
-  padding: 30px;
-  background: rgba(30, 41, 59, 0.6);
-  backdrop-filter: blur(10px);
-  border: 1px solid rgba(244, 180, 0, 0.1);
-  border-radius: 20px;
+  padding: 28px;
+  background: #141414;
+  border: 1px solid #232323;
+  border-radius: 12px;
 }
 
 .summary-title {
@@ -328,21 +331,21 @@
 }
 
 .apply-btn {
-  padding: 12px 24px;
-  background: linear-gradient(135deg, #f4b400 0%, #ffd700 100%);
-  color: #111;
-  font-size: 14px;
-  font-weight: 700;
+  padding: 12px 20px;
+  background: #c9a227;
+  color: #0a0a0a;
+  font-size: 13px;
+  font-weight: 600;
   border: none;
-  border-radius: 8px;
+  border-radius: 6px;
   cursor: pointer;
-  transition: all 0.2s ease;
+  transition: background 0.2s ease, transform 0.2s ease;
   white-space: nowrap;
 }
 
 .apply-btn:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 4px 12px rgba(244, 180, 0, 0.4);
+  background: #e6bb45;
+  transform: translateY(-1px);
 }
 
 .promo-success {
@@ -413,57 +416,57 @@
 
 .checkout-btn {
   width: 100%;
-  padding: 18px;
-  background: linear-gradient(135deg, #f4b400 0%, #ffd700 100%);
-  color: #111;
-  font-size: 16px;
-  font-weight: 700;
+  padding: 16px;
+  background: #c9a227;
+  color: #0a0a0a;
+  font-size: 15px;
+  font-weight: 600;
+  letter-spacing: 0.5px;
   border: none;
-  border-radius: 50px;
+  border-radius: 6px;
   cursor: pointer;
-  transition: all 0.3s ease;
-  box-shadow: 0 4px 15px rgba(244, 180, 0, 0.3);
+  transition: transform 0.2s ease, box-shadow 0.2s ease, background 0.2s ease;
 }
 
 .checkout-btn:hover {
+  background: #e6bb45;
   transform: translateY(-2px);
-  box-shadow: 0 6px 20px rgba(244, 180, 0, 0.5);
+  box-shadow: 0 6px 20px rgba(201, 162, 39, 0.35);
 }
 
 .continue-shopping-btn {
   width: 100%;
-  padding: 14px;
+  padding: 13px;
   background: transparent;
-  color: #f4b400;
-  font-size: 15px;
-  font-weight: 600;
-  border: 2px solid #f4b400;
-  border-radius: 50px;
+  color: #c9a227;
+  font-size: 14px;
+  font-weight: 500;
+  border: 1px solid rgba(201, 162, 39, 0.4);
+  border-radius: 6px;
   cursor: pointer;
-  transition: all 0.3s ease;
+  transition: border-color 0.2s ease, color 0.2s ease;
 }
 
 .continue-shopping-btn:hover {
-  background: rgba(244, 180, 0, 0.1);
-  transform: translateY(-2px);
+  border-color: #c9a227;
+  color: #e6bb45;
 }
 
 .clear-cart-btn {
   width: 100%;
-  padding: 12px;
+  padding: 11px;
   background: transparent;
-  color: #94a3b8;
-  font-size: 14px;
-  font-weight: 600;
-  border: 1px solid rgba(148, 163, 184, 0.2);
-  border-radius: 50px;
+  color: #555;
+  font-size: 13px;
+  font-weight: 500;
+  border: 1px solid #2a2a2a;
+  border-radius: 6px;
   cursor: pointer;
-  transition: all 0.3s ease;
+  transition: border-color 0.2s ease, color 0.2s ease;
 }
 
 .clear-cart-btn:hover {
-  background: rgba(239, 68, 68, 0.1);
-  border-color: rgba(239, 68, 68, 0.3);
+  border-color: rgba(239, 68, 68, 0.4);
   color: #ef4444;
 }
 
