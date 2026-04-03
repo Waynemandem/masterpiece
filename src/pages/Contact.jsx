@@ -20,13 +20,13 @@ function Contact() {
     },
     // Operating hours (24-hour format)
     operatingHours: {
-      monday: { open: "15:00", close: "23:00" },
-      tuesday: { open: "15:00", close: "23:00" },
-      wednesday: { open: "15:00", close: "23:00" },
-      thursday: { open: "15:00", close: "23:00" },
-      friday: { open: "15:00", close: "23:00" },
-      saturday: { open: "15:00", close: "23:00" },
-      sunday: { open: "15:00", close: "22:00" }
+      monday: { open: "09:00", close: "23:00" },
+      tuesday: { open: "09:00", close: "23:00" },
+      wednesday: { open: "09:00", close: "23:00" },
+      thursday: { open: "09:00", close: "23:00" },
+      friday: { open: "09:00", close: "23:00" },
+      saturday: { open: "09:00", close: "23:00" },
+      sunday: { open: "09:00", close: "22:00" }
     }
   };
 
@@ -35,7 +35,7 @@ function Contact() {
     { name: "Arepo", fee: "₦1,000", time: "15-30 min" },
     { name: "Warewa", fee: "₦800", time: "5-15 min" },
     { name: "Inside Warewa", fee: "₦500", time: "10-20 min" },
-    { name: "`Fatgbems", fee: "₦1,500", time: "20-40 min" }
+    { name: "Fatgbems", fee: "₦1,500", time: "20-40 min" }
   ];
 
   // Check if restaurant is open
