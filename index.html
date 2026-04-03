@@ -2,30 +2,129 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
-    <link rel="icon" type="image/svg+xml" href="src/images/logo.jpg" />
+    <!-- ============================================
+         SEO FOUNDATIONS
+         WHY: Google uses <title> as the clickable
+         headline in search results. Pipe-separated
+         format "Page – Brand" is the industry standard.
+         Keyword "shawarma Warewa" targets local searches.
+         ============================================ -->
+    <title>Masterpiece Shawarma — Fresh Shawarma in Warewa, Ogun State</title>
+
+    <!-- Viewport (mobile rendering) -->
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Masterpiece Shawarma</title>
-       <meta name="description" content="Premium shawarma and drinks served fresh daily. Order online now.">
-       <meta name="viewport" content="width=device-width, initial-scale=1.0">
-       <meta property="og:title" content="Masterpiece Shawarma">
-       <meta property="og:description" content="Premium shawarma and drinks served fresh daily.">
-       <meta property="og:type" content="website">
-       <meta property="og:image" content="/preview-image.jpg">
+
+    <!-- Primary SEO meta
+         WHY: Meta description = the two lines under your
+         title in Google. It doesn't affect ranking but
+         directly affects click-through rate (CTR).
+         Keep under 155 characters. Include a CTA. -->
+    <meta
+      name="description"
+      content="Hot, fresh shawarma delivered to your door in Warewa, Arepo & Fatgbems. Order online for pickup or delivery. Chicken, beef, and combo platters available daily."
+    />
+    <meta name="keywords" content="shawarma Warewa, shawarma Arepo, shawarma delivery Ogun state, Masterpiece Shawarma, chicken shawarma, beef shawarma" />
+    <meta name="author" content="Masterpiece Shawarma" />
+    <meta name="robots" content="index, follow" />
+
+    <!-- Canonical URL
+         WHY: Tells Google the authoritative URL for this
+         page — prevents duplicate-content penalties if
+         the site is ever accessed via multiple domains. -->
+    <link rel="canonical" href="https://masterpiece-shawarma.vercel.app/" />
+
+    <!-- Favicon -->
+    <link rel="icon" type="image/jpeg" href="/src/images/logo.jpg" />
+
+    <!-- ============================================
+         OPEN GRAPH (Facebook, WhatsApp, LinkedIn)
+         WHY: When someone pastes your link on WhatsApp
+         or Facebook, OG tags control the preview card —
+         image, title, and description. A good preview
+         image alone can 3–5× the click-through rate
+         on shared links. Critical for a local food
+         business that relies on WhatsApp referrals.
+         ============================================ -->
+    <meta property="og:type" content="restaurant.restaurant" />
+    <meta property="og:site_name" content="Masterpiece Shawarma" />
+    <meta property="og:title" content="Masterpiece Shawarma — Fresh Shawarma in Warewa" />
+    <meta property="og:description" content="Hot, fresh shawarma delivered to your door. Order online for pickup or delivery to Warewa, Arepo & Fatgbems." />
+    <meta property="og:image" content="https://masterpiece-shawarma.vercel.app/preview-image.jpg" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:url" content="https://masterpiece-shawarma.vercel.app/" />
+    <meta property="og:locale" content="en_NG" />
+
+    <!-- ============================================
+         TWITTER / X CARD
+         WHY: Controls appearance when shared on Twitter/X.
+         "summary_large_image" = big image above the text,
+         much more eye-catching than the small default card.
+         ============================================ -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="Masterpiece Shawarma — Fresh Shawarma in Warewa" />
+    <meta name="twitter:description" content="Hot, fresh shawarma delivered to your door. Order online now." />
+    <meta name="twitter:image" content="https://masterpiece-shawarma.vercel.app/preview-image.jpg" />
+
+    <!-- ============================================
+         LOCAL BUSINESS SCHEMA (JSON-LD)
+         WHY: This is how Google shows your hours,
+         address, phone, and star ratings directly in
+         search results ("rich results"). A local
+         restaurant with proper schema can appear in
+         the map pack AND the organic results.
+         ============================================ -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "Restaurant",
+      "name": "Masterpiece Shawarma",
+      "url": "https://masterpiece-shawarma.vercel.app/",
+      "telephone": "+2347067027109",
+      "email": "issatolani05@gmail.com",
+      "image": "https://masterpiece-shawarma.vercel.app/preview-image.jpg",
+      "description": "Hot, fresh shawarma in Warewa, Ogun State. Delivery to Warewa, Arepo, and Fatgbems.",
+      "servesCuisine": ["Shawarma", "Nigerian", "Fast Food"],
+      "priceRange": "₦₦",
+      "currenciesAccepted": "NGN",
+      "paymentAccepted": "Cash, Bank Transfer",
+      "address": {
+        "@type": "PostalAddress",
+        "streetAddress": "Warewa Market Road",
+        "addressLocality": "Warewa",
+        "addressRegion": "Ogun State",
+        "postalCode": "100201",
+        "addressCountry": "NG"
+      },
+      "geo": {
+        "@type": "GeoCoordinates",
+        "latitude": 6.67657,
+        "longitude": 3.40924
+      },
+      "openingHoursSpecification": [
+        {
+          "@type": "OpeningHoursSpecification",
+          "dayOfWeek": ["Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"],
+          "opens": "09:00",
+          "closes": "23:00"
+        },
+        {
+          "@type": "OpeningHoursSpecification",
+          "dayOfWeek": "Sunday",
+          "opens": "09:00",
+          "closes": "22:00"
+        }
+      ],
+      "hasMap": "https://www.google.com/maps/search/?api=1&query=6.67657,3.40924",
+      "sameAs": [
+        "https://wa.me/2347067027109"
+      ]
+    }
+    </script>
   </head>
   <body>
     <div id="root"></div>
     <script type="module" src="/src/main.jsx"></script>
-    <script type="application/ld+json">
-{
-  "@context": "https://schema.org",
-  "@type": "Restaurant",
-  "name": "Masterpiece Shawarma",
-  "url": "https://masterpiece-shawarma.vercel.app/",
-  "image": "https://masterpiece-shawarma.vercel.app/preview-image.jpg",
-  "servesCuisine": "Nigerian",
-  "priceRange": "₦₦"
-}
-</script>
-<script src="https://js.paystack.co/v2/inline.js"></script>
+    <!-- Paystack script removed. Payment is now handled manually via bank transfer. -->
   </body>
 </html>
